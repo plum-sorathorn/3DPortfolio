@@ -11,13 +11,24 @@ body {
 
 #container {
     display: flex;
-    width: 500vw; /* Each room takes 100vw */
+    width: 500vw; /* 5 rooms, 100vw each */
     height: 100vh;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.8s ease-in-out; /* Smooth transition */
 }
 
 .room {
     width: 100vw;
     height: 100vh;
     text-align: center;
+}
+
+.room-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.room-content.active {
+    opacity: 1;
+    transform: translateY(0);
 }
