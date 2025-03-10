@@ -5,30 +5,46 @@
 }
 
 body {
-    font-family: 'Lato', sans-serif !important;
-    overflow-x: hidden;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
-#container {
-    display: flex;
-    width: 500vw; /* 5 rooms, 100vw each */
-    height: 100vh;
-    transition: transform 0.8s ease-in-out; /* Smooth transition */
-}
-
-.room {
+#three-container {
+    position: absolute;
     width: 100vw;
     height: 100vh;
+    background-color: #000;
+}
+
+/* Hide overlay by default */
+#experience-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay Content Styling */
+.overlay-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
+    width: 50%;
+    color: black;
 }
 
-.room-content {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.room-content.active {
-    opacity: 1;
-    transform: translateY(0);
+#close-overlay {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
