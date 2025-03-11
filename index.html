@@ -5,9 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Portfolio Room</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="three-container"></div>
+
+    <!-- Holographic Work Experience Overlay -->
+    <div id="experience-overlay" class="hidden">
+        <div class="overlay-content">
+            <h2>Work Experience</h2>
+
+            <p><strong>Bangkok Bank Internship (2024)</strong><br>
+               - Assisted in IT support<br>
+               - Learned about financial systems</p>
+
+            <p><strong>IT Support (Asia Inter Rice, 2024)</strong><br>
+               - Troubleshot software & network issues</p>
+
+            <p><strong>Student Council Secretary (2021-2022)</strong><br>
+               - Managed events & decision-making</p>
+
+            <button id="close-overlay">Close</button>
+        </div>
+    </div>
 
     <!-- Include Three.js & Extensions -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -16,7 +36,5 @@
     
     <!-- Main JavaScript File -->
     <script src="script.js"></script>
-
-    <!-- Overlay for Work Experience -->
 </body>
 </html>
