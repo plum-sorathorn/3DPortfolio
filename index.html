@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Portfolio Room</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -12,20 +13,39 @@
 
     <!-- Holographic Work Experience Overlay -->
     <div id="experience-overlay" class="hidden">
+        <button class="close-btn">&times;</button>
         <div class="overlay-content">
-            <h2>Work Experience</h2>
-
-            <p><strong>Bangkok Bank Internship (2024)</strong><br>
-               - Assisted in IT support<br>
-               - Learned about financial systems</p>
-
-            <p><strong>IT Support (Asia Inter Rice, 2024)</strong><br>
-               - Troubleshot software & network issues</p>
-
-            <p><strong>Student Council Secretary (2021-2022)</strong><br>
-               - Managed events & decision-making</p>
-
-            <button id="close-overlay">Close</button>
+            <!-- Asia Inter Rice -->
+            <div class="experience-section">
+                <div class="left-panel">
+                    <h1>Asia Inter Rice</h1>
+                    <p><span class="highlight"> IT Support Technician<br> </span> 
+                        Solved software & hardware related issues <br>
+                        Developed scripts to permanently improve workflow
+                    </p>
+                </div>
+                <div class="right-panel">
+                    <ul class="experience-list">
+                        <li>Python, Pandas, Network, Security, Hardware and Software Troubleshooting</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <!-- Bangkok Bank -->
+            <div class="experience-section">
+                <div class="left-panel">
+                    <h1>Bangkok Bank</h1>
+                    <p><span class="highlight"> Intern<br> </span> 
+                        ex1 <br>
+                        ex2
+                    </p>
+                </div>
+                <div class="right-panel">
+                    <ul class="experience-list">
+                        <li> General Research and Development Processes,  </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 

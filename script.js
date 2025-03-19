@@ -59,56 +59,35 @@ window.addEventListener("resize", () => {
     camera.updateProjectionMatrix();
 });
 
-// Monitor Screen Setup
+// Hologram Overlay
+document.addEventListener("DOMContentLoaded", function() {
+    const overlay = document.getElementById("experience-overlay");
+    const closeBtn = document.querySelector(".close-btn");
 
-// Select overlay and close button
-const overlay = document.getElementById("experience-overlay");
-const closeOverlayBtn = document.getElementById("close-overlay");
+    // Function to show overlay
+    function showOverlay() {
+        overlay.classList.remove("hidden");
+    }
 
-// Function to flash screen and show overlay
-function flashScreen(monitor, callback) {
-    const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const originalMaterial = monitor.material;
+    // Function to close overlay
+    function closeOverlay() {
+        overlay.classList.add("hidden");
+    }
 
-    monitor.traverse((child) => {
-        if (child.isMesh) {
-            child.material = whiteMaterial;
+    // Close when clicking the 'X' button
+    closeBtn.addEventListener("click", closeOverlay);
+
+    // Close when clicking outside overlay content
+    overlay.addEventListener("click", function(event) {
+        if (event.target === overlay) {
+            closeOverlay();
         }
     });
 
-    setTimeout(() => {
-        monitor.traverse((child) => {
-            if (child.isMesh) {
-                child.material = originalMaterial;
-            }
-        });
-
-        callback(); // Show overlay after flash
-    }, 200);
-}
-
-// Function to set up monitor click event
-function setupMonitorScreen(monitor) {
-    monitor.userData.isClickable = true;
-
-    window.addEventListener("click", (event) => {
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObject(room, true);
-
-        for (let i = 0; i < intersects.length; i++) {
-            if (intersects[i].object.name === "monitorScreen") {
-                flashScreen(monitor, () => {
-                    overlay.style.display = "flex"; // Show overlay
-                });
-            }
+    // Open overlay manually for testing
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "o") { // Press "O" to open overlay
+            showOverlay();
         }
     });
-}
-
-// Close overlay when clicking the close button
-closeOverlayBtn.addEventListener("click", () => {
-    overlay.style.display = "none"; // Hide overlay when closed
 });

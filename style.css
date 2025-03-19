@@ -20,91 +20,141 @@ body {
     background-color: #000;
 }
 
-/* Holographic Overlay */
+/* Overlay Styles */
 #experience-overlay {
-    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(8px); /* Blur effect for holographic look */
-}
-
-/* Holographic Panel */
-.overlay-content {
-    background: rgba(0, 255, 255, 0.2); /* Cyan glow effect */
-    border: 2px solid rgba(0, 255, 255, 0.6);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 50%;
-    color: white;
-    font-family: 'Orbitron', sans-serif; /* Futuristic font */
-    text-transform: uppercase;
-    position: relative;
-    animation: holographic-glow 2s infinite alternate;
-}
-
-/* Hologram Overlay for Work Experience */
-/* Holographic Glow Animation */
-@keyframes holographic-glow {
-    0% {
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    }
-    100% {
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
-    }
-}
-
-/* Scanline Effect */
-.overlay-content::before {
-    content: "";
-    position: absolute;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 255, 255, 0.1) 10%, rgba(0, 255, 255, 0) 50%);
-    animation: scanline 4s linear infinite;
-}
-
-/* Scanline Animation */
-@keyframes scanline {
-    0% {
-        top: -100%;
-    }
-    100% {
-        top: 100%;
-    }
-}
-
-/* Holographic Text Glow */
-.overlay-content h2 {
-    color: cyan;
-    text-shadow: 0 0 5px cyan, 0 0 10px cyan, 0 0 20px cyan;
-}
-
-/* Close Button */
-#close-overlay {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background: rgba(255, 0, 0, 0.8);
+    background: rgba(0, 10, 30, 0.6); /* Deep blue tint with 60% transparency */
+    backdrop-filter: blur(15px) saturate(120%);
+    display: flex;
     color: white;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+
+.overlay-content {
+    display: block;
+    width: 70%;
+    background: rgba(20, 20, 30, 0.4); /* Dark blue-grey with 40% transparency */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.4); /* Cyan glow */
+    backdrop-filter: blur(10px) brightness(1.2);
+    animation: glow 2s infinite alternate ease-in-out;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
+    }
+    to {
+        box-shadow: 0 0 25px rgba(0, 200, 255, 0.6);
+    }
+}
+
+/* Styling for the experience sections */
+.experience-section {
+    display: flex; /* Makes each section stack vertically */
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Holographic effect */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+    backdrop-filter: blur(10px); /* Glassmorphism effect */
+}
+
+.overlay-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Ensures content inside aligns properly */
+.left-panel, .right-panel {
+    width: 100%; /* Makes both sections take full width */
+    padding: 10px;
+}
+
+/* Ensures right-panel content doesn't stretch */
+.right-panel ul {
+    padding-left: 20px;
+}
+
+.highlight {
+    font-weight: bold;
+    color: cyan;
+}
+
+/* Left Panel */
+.left-panel {
+    width: 50%;
+    padding-right: 20px;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.left-panel h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.left-panel .highlight {
+    color: rgba(140, 182, 255, 0.651); /* Yellow Highlight */
+}
+
+/* Right Panel */
+.right-panel {
+    width: 50%;
+    padding-left: 20px;
+}
+
+.description-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.experience-list { 
+    position: absolute;
+    top: 37.5%;
+    list-style: none;
+}
+
+.experience-list li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.experience-list .year {
+    color: rgba(140, 182, 255, 0.651);
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Style for the close button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+    background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    text-transform: uppercase;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
+    transition: 0.3s;
 }
 
-#close-overlay:hover {
-    background: rgba(255, 0, 0, 1);
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+/* Hover effect */
+.close-btn:hover {
+    color: red;
 }
