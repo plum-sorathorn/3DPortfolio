@@ -811,7 +811,7 @@ xclip
 
 
 /*------------------------------------------------------------------
-    TESTIMONIALS
+    Certifications
 -------------------------------------------------------------------*/
 
 .logos img {
@@ -845,35 +845,35 @@ xclip
     margin-top: 20px;
 }
 
-.testimonial h4 {
+.certifications h4 {
     font-size: 18px;
     color: #333333;
     padding: 13px 0 0;
 }
 
-.testimonial img {
+.certifications img {
     max-width: 55px;
 }
 
-.testimonial small {
+.certifications small {
     margin-top: 7px;
     font-size: 16px;
     display: block;
 }
 
-.testimonial {
+.certifications {
     background-color: transparent;
 }
 
-.testimonial h3 {
+.certifications h3 {
     padding: 0 0 10px;
     font-size: 20px;
     font-weight: 600;
 	color: #ffffff;
 }
 
-.testimonial small,
-.testimonial .lead {
+.certifications small,
+.certifications .lead {
     background-color: transparent;
     color: #aaa;
     display: block;
@@ -885,7 +885,7 @@ xclip
     position: relative;
 }
 
-.testimonial p:after {
+.certifications p:after {
     display: none;
 }
 
