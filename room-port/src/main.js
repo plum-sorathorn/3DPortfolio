@@ -13,6 +13,8 @@ const sizes ={
   height: window.innerHeight,
 }
 
+/* variable declarations */
+
 // to load textures
 const textureLoader = new THREE.TextureLoader();
 
@@ -23,8 +25,31 @@ const loader = new GLTFLoader();
 loader.setDRACOLoader(dracoLoader);
 
 // load raycaster functions
+let currentIntersects = [];
+const raycasterObjects = [];
+
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+
+
+// define links for contact
+const contacts = {
+  github_raycaster: "https://github.com/plum-sorathorn/",
+  linkedin_raycaster: "https://www.linkedin.com/in/sorathorn-thongpitukthavorn/",
+}
+
+// create array of fans to allow for animation
+const fans = [];
+
+// create const for inner tesseract for animation
+const tesseracts = []
+let innerOriginalIntensity = null;
+
+// create const for chair for animation
+const chairs = []
+
+
+/* end of variable declarations */
 
 // mapping to texture files
 const textureMap = {
@@ -103,6 +128,8 @@ Object.entries(textureMap).forEach(([key, paths])=>{
   loadedTextures.texture[key] = currentTexture;
 });
 
+/* LOADING OF VIDEO TEXTURES */
+
 // load in video for hologram screen
 const holoVideo = document.createElement("video");
 holoVideo.src = "/textures/videos/holoscreen2.mp4";
@@ -132,20 +159,35 @@ function handleVisibilityChange() {
 const holoVideoTexture = new THREE.VideoTexture(holoVideo);
 holoVideoTexture.colorSpace = THREE.SRGBColorSpace;
 
-// function for raycaster (triggers for mouse-related actions)
-window.addEventListener("mousemove", ()=> {
+/* END OF LOADING OF VIDEO TEXTURES */
 
+/* RAYCASTER INTERACTIONS */
+// function for raycaster (triggers for mouse hovers)
+window.addEventListener("mousemove", (event)=> {
+  pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 })
 
-// create array of fans to allow for animation
-const fans = [];
+// function for mouse-interactions
+window.addEventListener("click", (event)=> {
+  if(currentIntersects.length > 0){
+    const object = currentIntersects[0].object;
 
-// create const for inner tesseract for animation
-const tesseracts = []
-let innerOriginalIntensity = null;
+    Object.entries(contacts).forEach(([key, url]) => {
+      if(object.name.includes(key)) {
+        const newWindow = window.open();
+        newWindow.opener = null;
+        newWindow.location = url;
+        newWindow.target = "_blank";
+        newWindow.rel = "noopener noreferrer";
+      }
+    });
+  }
+})
 
-// create const for chair for animation
-const chairs = []
+/* END OF RAYCASTER INTERACTIONS */
+
+/* MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
 
 // main function to load and adjust each object in the 3d model
 loader.load("/models/room_test-v1.glb", (glb)=> {
@@ -161,6 +203,11 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
           
           if(child.material.map){
             child.material.map.minFilter = THREE.LinearFilter;
+          }
+
+          // add them objects for mouse interactions (raycaster)
+          if (child.name.includes("_raycaster")) {
+            raycasterObjects.push(child);
           }
 
           // texture for PC glass
@@ -271,6 +318,10 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
   scene.add(glb.scene);
 });
 
+/* END OF MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
+
+/* SETTING UP SCENE, CAMERA, AND LIGHTING */
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, sizes.width / sizes.height, 0.1, 1000 );
 camera.position.z = 5;
@@ -324,6 +375,9 @@ window.addEventListener("resize", ()=>{
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 })
 
+/* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
+
+/* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
 let time = 0;
 const render = () => {
   controls.update();
@@ -343,9 +397,29 @@ const render = () => {
     tess.material.emissiveIntensity = innerOriginalIntensity * intensityFactor;
   })
 
+  // raycaster (mouse interactions)
+  raycaster.setFromCamera( pointer, camera );
+	currentIntersects = raycaster.intersectObjects(raycasterObjects);
+	for ( let i = 0; i < currentIntersects.length; i ++ ) {
+	}
+  if (currentIntersects.length > 0){
+    const currentIntersectObject = currentIntersects[0].object;
+    if (currentIntersectObject.name.includes("_raycaster")) {
+      document.body.style.cursor = "pointer"
+    } else {
+      document.body.style.cursor = "default"
+    }
+  }
+  else {
+    document.body.style.cursor = "default"
+  }
+
+
   composer.render();
 
   window.requestAnimationFrame(render);
 }
 
 render()
+
+/* END OF RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
