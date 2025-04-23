@@ -38,3 +38,18 @@ html, body {
   }
 }
 
+// modals
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  z-index: 9999;
+  display: none;
+  background-color: black;
+}
+
+.modal-exit-button{
+  background-color: white;
+}

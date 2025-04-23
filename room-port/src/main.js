@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import gsap from "gsap"
 
 const canvas = document.querySelector("#experience-canvas")
 const sizes ={
@@ -13,7 +14,7 @@ const sizes ={
   height: window.innerHeight,
 }
 
-/* variable declarations */
+/* START OF VARIABLE DECLARTIONS */
 
 // to load textures
 const textureLoader = new THREE.TextureLoader();
@@ -31,12 +32,65 @@ const raycasterObjects = [];
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
+// hover animation variables
+let currentHoveredContacts = null;
 
 // define links for contact
 const contacts = {
   github_raycaster: "https://github.com/plum-sorathorn/",
   linkedin_raycaster: "https://www.linkedin.com/in/sorathorn-thongpitukthavorn/",
 }
+
+// define modals for GSAP animations
+const modals = {
+  about: document.querySelector(".modal.about"),
+  cerA:  document.querySelector(".modal.cerA"),
+  cerCSIS:  document.querySelector(".modal.cerCSIS"),
+  cerNet:  document.querySelector(".modal.cerNet"),
+}
+
+let touchHappened = false;
+document.querySelectorAll(".modal-exit-button").forEach(button =>{
+  // Mobile device
+  button.addEventListener("touchend", (event) => {
+    touchHappened = true;
+    const modal = event.target.closest(".modal");
+    hideModal(modal);
+  }, 
+  {passive: false,}
+  );
+
+  // PC or Laptop
+  button.addEventListener("click", (event) => {
+    if (touchHappened) {return;}
+    const modal = event.target.closest(".modal");
+    hideModal(modal);
+  })
+})
+
+// functions for interaction with modals
+const showModal = (modal) => {
+  modal.style.display = "block"
+  gsap.set(modal, {
+    opacity: 0,
+  })
+  gsap.to(modal, {
+    opacity: 1,
+    duration: 0.5,
+
+  })  
+}
+
+const hideModal = (modal) => {
+  gsap.to(modal, {
+    opacity: 0,
+    duration: 0.5,
+    onComplelte: () => {
+      modal.style.display = "none"
+    }
+  })
+}
+
 
 // create array of fans to allow for animation
 const fans = [];
@@ -48,8 +102,8 @@ let innerOriginalIntensity = null;
 // create const for chair for animation
 const chairs = []
 
+/* END OF VARIABLE DECLARTIONS */
 
-/* end of variable declarations */
 
 // mapping to texture files
 const textureMap = {
@@ -164,12 +218,20 @@ holoVideoTexture.colorSpace = THREE.SRGBColorSpace;
 /* RAYCASTER INTERACTIONS */
 // function for raycaster (triggers for mouse hovers)
 window.addEventListener("mousemove", (event)=> {
+  touchHappened = false;
   pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 })
 
-// function for mouse-interactions
-window.addEventListener("click", (event)=> {
+window.addEventListener("touchstart", (event)=> {
+  event.preventDefault();
+  pointer.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
+	pointer.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
+  },
+  {passive: false,}
+)
+
+function handleRaycasterInteraction() {
   if(currentIntersects.length > 0){
     const object = currentIntersects[0].object;
 
@@ -182,8 +244,33 @@ window.addEventListener("click", (event)=> {
         newWindow.rel = "noopener noreferrer";
       }
     });
+
+    if (object.name == "monitor_screen_raycaster") {
+      showModal(modals.about)
+    }
+    if (object.name == "frame1_screen_raycaster") {
+      showModal(modals.cerA)
+    }
+    if (object.name == "frame2_screen_raycaster") {
+      showModal(modals.cerCSIS)
+    }
+    if (object.name == "frame3_screen_raycaster") {
+      showModal(modals.cerNet)
+    }
+    
   }
-})
+}
+
+window.addEventListener("touchend", (event)=> {
+  event.preventDefault();
+  handleRaycasterInteraction();
+}, {passive: false}
+);
+
+
+
+// function for mouse-interactions
+window.addEventListener("click", handleRaycasterInteraction);
 
 /* END OF RAYCASTER INTERACTIONS */
 
@@ -208,6 +295,10 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
           // add them objects for mouse interactions (raycaster)
           if (child.name.includes("_raycaster")) {
             raycasterObjects.push(child);
+            child.userData.initialScale = new THREE.Vector3().copy(child.scale);
+            child.userData.initialPosition = new THREE.Vector3().copy(child.position);
+            child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
+            child.userData.isAnimating = false;
           }
 
           // texture for PC glass
@@ -358,7 +449,7 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.target.set(0, 8, 0);
 // set camera position here
-camera.position.set(10, 16, -10);
+camera.position.set(12, 16, -12);
 controls.update();
 
 // Event Listeners (triggers)
@@ -376,6 +467,51 @@ window.addEventListener("resize", ()=>{
 })
 
 /* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
+
+/* START OF MOUSE HOVERING ANIMATIONS */
+
+// mouse-hovering animation for contacts
+function contactsHoverAnimation(object, isHovering){
+  gsap.killTweensOf(object.scale);
+  gsap.killTweensOf(object.rotation);
+  gsap.killTweensOf(object.position);
+  
+  if(isHovering){
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x * 1.2,
+      y: object.userData.initialScale.y * 1.2,
+      z: object.userData.initialScale.z * 1.2,
+      duration: 0.5,
+      ease: "bounce.out(1.8)",
+    });
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y * 1.2 + -Math.PI / 6,
+      duration: 0.5,
+      ease: "bounce.out(1.8)",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    })
+  } else {
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x,
+      y: object.userData.initialScale.y,
+      z: object.userData.initialScale.z,
+      duration: 0.3,
+      ease: "bounce.out(1.8)",
+    });
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y,
+      duration: 0.5,
+      ease: "bounce.out(1.8)",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    })
+  }
+}
+
+/* END OF MOUSE HOVERING ANIMATIONS */
 
 /* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
 let time = 0;
@@ -400,17 +536,34 @@ const render = () => {
   // raycaster (mouse interactions)
   raycaster.setFromCamera( pointer, camera );
 	currentIntersects = raycaster.intersectObjects(raycasterObjects);
-	for ( let i = 0; i < currentIntersects.length; i ++ ) {
-	}
+
   if (currentIntersects.length > 0){
     const currentIntersectObject = currentIntersects[0].object;
+
     if (currentIntersectObject.name.includes("_raycaster")) {
+      // Animations for contacts
+      if (currentIntersectObject.name.includes("github") || currentIntersectObject.name.includes("linkedin")){
+        if (currentIntersectObject != currentHoveredContacts) {
+          if (currentHoveredContacts){
+            contactsHoverAnimation(currentHoveredContacts, false);
+          }
+
+          contactsHoverAnimation(currentIntersectObject, true);
+          currentHoveredContacts = currentIntersectObject;
+        }
+      }
+
       document.body.style.cursor = "pointer"
     } else {
       document.body.style.cursor = "default"
     }
   }
   else {
+    // Animations for contacts
+    if (currentHoveredContacts){
+      contactsHoverAnimation(currentHoveredContacts, false);
+      currentHoveredContacts = null;
+    }
     document.body.style.cursor = "default"
   }
 
