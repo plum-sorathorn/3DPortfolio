@@ -34,6 +34,15 @@ const pointer = new THREE.Vector2();
 
 // hover animation variables
 let currentHoveredContacts = null;
+let currentHoveredFrames = null;
+let currentHoveredHologram = null;
+
+let currentHoveredTesseract = null;
+let innerTesseract = null;
+let outerTesseract = null;
+
+let currentHoveredScreen = null;
+let currentHoveredChair = null;
 
 // define links for contact
 const contacts = {
@@ -350,6 +359,7 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
               depthWrite: false
             });
             innerOriginalIntensity = child.material.emissiveIntensity;
+            innerTesseract = child;
             tesseracts.push(child)
           }
           if(child.name == "tesseract_outer_raycaster"){
@@ -362,6 +372,7 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
               depthWrite: false,
               blendEquation: THREE.AdditiveBlending,
             });
+            outerTesseract = child;
           }
           // textures for holograms
           if(child.name == "hologram_ball"){
@@ -511,6 +522,136 @@ function contactsHoverAnimation(object, isHovering){
   }
 }
 
+// mouse-hovering animation for frames
+function framesHoverAnimation(object, isHovering) {
+  gsap.killTweensOf(object.scale);
+  gsap.killTweensOf(object.position);
+
+  if (isHovering) {
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x * 1.3,
+      y: object.userData.initialScale.y * 1.3,
+      z: object.userData.initialScale.z * 1.3,
+      duration: 0.3,
+      ease: "expo.inOut(1.8)",
+    });
+
+    gsap.to(object.position, {
+      x: object.userData.initialPosition.x / 1.05,
+      duration: 0.3,
+      ease: "expo.inOut(1.8)",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    });
+  } else {
+    gsap.to(object.scale, {
+      x: object.userData.initialScale.x,
+      y: object.userData.initialScale.y,
+      z: object.userData.initialScale.z,
+      duration: 0.3,
+      ease: "expo.inOut",
+    });
+
+    gsap.to(object.position, {
+      x: object.userData.initialPosition.x,
+      duration: 0.5,
+      ease: "expo.inOut",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    });
+  }
+}
+
+function hologramHoverAnimation(object, isHovering) {
+  gsap.killTweensOf(object.material.color);
+  gsap.killTweensOf(holoVideo);
+
+  if (isHovering) {
+    gsap.to(object.material.color, {
+      color: object.material.color.multiplyScalar(1.5),
+    });
+    gsap.to(holoVideo, {
+      playbackRate: 5,
+      duration: 0.5,
+      ease: "power2",
+    });
+  } else {
+    gsap.to(object.material.color, {
+      color: object.material.color.multiplyScalar((2/3)),
+    });
+    gsap.to(holoVideo, {
+      playbackRate: 1,
+      duration: 0.5,
+      ease: "power2",
+    });
+  }
+}
+
+function tesseractHoverAnimation(object, isHovering) {
+  // gather the two parts: always the one under the pointer,
+  // plus the inner if you hovered the outer
+  const targets = [ object ];
+  if (object === outerTesseract && innerTesseract) {
+    targets.push(innerTesseract);
+  }
+
+  // kill any running tweens on scale or rotation
+  targets.forEach(t => {
+    gsap.killTweensOf(t.scale);
+    gsap.killTweensOf(t.rotation);
+  });
+
+  if (isHovering) {
+    targets.forEach(target => {
+      // larger scale for inner, slightly less for outer
+      const factor = 1.2;
+
+      // scale up
+      gsap.to(target.scale, {
+        x: target.userData.initialScale.x * factor,
+        y: target.userData.initialScale.y * factor,
+        z: target.userData.initialScale.z * factor,
+        duration: 0.3,
+        ease: "expo.inOut"
+      });
+
+      // spin forever around Y
+      gsap.to(target.rotation, {
+        y: target.userData.initialRotation.y + Math.PI * 1,
+        duration: 0.5,
+        ease: "none",
+      });
+    });
+  } else {
+    targets.forEach(target => {
+
+      // scale back down
+      gsap.to(target.scale, {
+        x: target.userData.initialScale.x,
+        y: target.userData.initialScale.y,
+        z: target.userData.initialScale.z,
+        duration: 0.3,
+        ease: "expo.inOut"
+      });
+
+      // stop spin and reset rotation
+      gsap.to(target.rotation, {
+        y: target.userData.initialRotation.y,
+        duration: 0.5,
+        ease: "expo.inOut"
+      });
+    });
+  }
+}
+
+function screenHoverAnimation(object, isHovering) {
+}
+
+function chairHoverAnimation(object, isHovering) {
+}
+
 /* END OF MOUSE HOVERING ANIMATIONS */
 
 /* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
@@ -547,9 +688,58 @@ const render = () => {
           if (currentHoveredContacts){
             contactsHoverAnimation(currentHoveredContacts, false);
           }
-
           contactsHoverAnimation(currentIntersectObject, true);
           currentHoveredContacts = currentIntersectObject;
+        }
+      }
+      // Animations for frames
+      if (currentIntersectObject.name.includes("frame") && currentIntersectObject.name.includes("_screen")){
+        if (currentIntersectObject != currentHoveredFrames) {
+          if (currentHoveredFrames){
+            framesHoverAnimation(currentHoveredFrames, false);
+          }
+          framesHoverAnimation(currentIntersectObject, true);
+          currentHoveredFrames = currentIntersectObject;
+        }
+      }
+
+      // Animation for hologram
+      if (currentIntersectObject.name.includes("hologram_screen")) {
+        if (currentIntersectObject !== currentHoveredHologram) {
+          if (currentHoveredHologram)
+            hologramHoverAnimation(currentHoveredHologram, false);
+          hologramHoverAnimation(currentIntersectObject, true);
+          currentHoveredHologram = currentIntersectObject;
+        }
+      }
+
+      // Animation for tesseract
+      if (currentIntersectObject.name.includes("tesseract")) {
+        if (currentIntersectObject !== currentHoveredTesseract) {
+          if (currentHoveredTesseract)
+            tesseractHoverAnimation(currentHoveredTesseract, false);
+          tesseractHoverAnimation(currentIntersectObject, true);
+          currentHoveredTesseract = currentIntersectObject;
+        }
+      }
+
+      // Animation for screen (monitor)
+      if (currentIntersectObject.name.includes("monitor_screen")) {
+        if (currentIntersectObject !== currentHoveredScreen) {
+          if (currentHoveredScreen)
+            screenHoverAnimation(currentHoveredScreen, false);
+          screenHoverAnimation(currentIntersectObject, true);
+          currentHoveredScreen = currentIntersectObject;
+        }
+      }
+
+      // Animation for chair
+      if (currentIntersectObject.name.includes("chair")) {
+        if (currentIntersectObject !== currentHoveredChair) {
+          if (currentHoveredChair)
+            chairHoverAnimation(currentHoveredChair, false);
+          chairHoverAnimation(currentIntersectObject, true);
+          currentHoveredChair = currentIntersectObject;
         }
       }
 
@@ -564,6 +754,35 @@ const render = () => {
       contactsHoverAnimation(currentHoveredContacts, false);
       currentHoveredContacts = null;
     }
+    // Animations for frames
+    if (currentHoveredFrames){
+      framesHoverAnimation(currentHoveredFrames, false);
+      currentHoveredFrames = null;
+    }
+
+    // Animations for hologram
+    if (currentHoveredHologram) {
+      hologramHoverAnimation(currentHoveredHologram, false);
+      currentHoveredHologram = null;
+    }
+
+    // Animations for tessearact
+    if (currentHoveredTesseract){
+      tesseractHoverAnimation(currentHoveredTesseract, false);
+      currentHoveredTesseract = null;
+    }
+    // Animations for screen (monitor)
+    if (currentHoveredScreen){
+      screenHoverAnimation(currentHoveredScreen, false);
+      currentHoveredScreen = null;
+    }
+
+    // Animations for chair
+    if (currentHoveredChair) {
+      chairHoverAnimation(currentHoveredChair, false);
+      currentHoveredChair = null;
+    }
+
     document.body.style.cursor = "default"
   }
 
