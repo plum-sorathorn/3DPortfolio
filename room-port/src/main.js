@@ -50,6 +50,13 @@ const contacts = {
   linkedin_raycaster: "https://www.linkedin.com/in/sorathorn-thongpitukthavorn/",
 }
 
+// define links for certs (frames)
+const certs = {
+  frame1_screen_raycaster: "",
+  frame2_screen_raycaster: "",
+  frame3_screen_raycaster: "",
+}
+
 // define modals for GSAP animations
 const modals = {
   about: document.querySelector(".modal.about"),
@@ -426,7 +433,6 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, sizes.width / sizes.height, 0.1, 1000 );
-camera.position.z = 5;
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
@@ -456,12 +462,26 @@ scene.add( cube );
 
 // initialize controls and camera
 const controls = new OrbitControls( camera, renderer.domElement );
+
+// limit camera angles
+controls.minPolarAngle = 0
+controls.maxPolarAngle = Math.PI / 2;
+controls.minAzimuthAngle = Math.PI / 2.25 ;
+controls.maxAzimuthAngle = -Math.PI / 1;
+
+// limit camera zoom
+controls.minDistance = 5;
+controls.maxDistance = 40;
+
+// other initialization factors
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.target.set(0, 8, 0);
-// set camera position here
-camera.position.set(12, 16, -12);
+
 controls.update();
+
+// set starting camera position here
+camera.position.set(12, 16, -12);
+controls.target.set(0, 8, 0);
 
 // Event Listeners (triggers)
 window.addEventListener("resize", ()=>{
@@ -564,6 +584,7 @@ function framesHoverAnimation(object, isHovering) {
   }
 }
 
+// mouse-hovering animation for hologram
 function hologramHoverAnimation(object, isHovering) {
   gsap.killTweensOf(object.material.color);
   gsap.killTweensOf(holoVideo);
@@ -576,6 +597,9 @@ function hologramHoverAnimation(object, isHovering) {
       playbackRate: 5,
       duration: 0.5,
       ease: "power2",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
     });
   } else {
     gsap.to(object.material.color, {
@@ -585,10 +609,14 @@ function hologramHoverAnimation(object, isHovering) {
       playbackRate: 1,
       duration: 0.5,
       ease: "power2",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
     });
   }
 }
 
+// mouse-hovering animation for tesseract
 function tesseractHoverAnimation(object, isHovering) {
   // gather the two parts: always the one under the pointer,
   // plus the inner if you hovered the outer
@@ -622,6 +650,9 @@ function tesseractHoverAnimation(object, isHovering) {
         y: target.userData.initialRotation.y + Math.PI * 1,
         duration: 0.5,
         ease: "none",
+        onComplete: () => {
+          object.userData.isAnimating = false;
+        }
       });
     });
   } else {
@@ -640,16 +671,74 @@ function tesseractHoverAnimation(object, isHovering) {
       gsap.to(target.rotation, {
         y: target.userData.initialRotation.y,
         duration: 0.5,
-        ease: "expo.inOut"
+        ease: "expo.inOut",
+        onComplete: () => {
+          object.userData.isAnimating = false;
+        }
       });
     });
   }
 }
 
+// mouse-hovering animation for monitor screen
 function screenHoverAnimation(object, isHovering) {
+  gsap.killTweensOf(object.material.color);
+
+  if (isHovering) {
+    gsap.to(object.material.color, {
+      // Animate the 'r', 'g', and 'b' components to brighten the color
+      r: 1.1,
+      g: 1.1,
+      b: 1.1,
+      duration: 0.5,
+      yoyo: true,
+      repeat: -1,
+      ease: "power1.in",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    });
+  } else {
+    gsap.to(object.material.color, {
+      r: 0.75,
+      g: 0.75,
+      b: 0.75,
+      duration: 0.2,
+      ease: "power2.out",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    });
+  }
 }
 
+// mouse hovering animation for chair
 function chairHoverAnimation(object, isHovering) {
+  gsap.killTweensOf(object.scale);
+  gsap.killTweensOf(object.rotation);
+  gsap.killTweensOf(object.position);
+  
+  if(isHovering){
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y * 1.2 + Math.PI / 6,
+      duration: 1.5,
+      ease: "power1.inOut",
+      yoyo: true,
+      repeat: -1,
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    })
+  } else {
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y,
+      duration: 0.5,
+      ease: "power1.out",
+      onComplete: () => {
+        object.userData.isAnimating = false;
+      }
+    })
+  }
 }
 
 /* END OF MOUSE HOVERING ANIMATIONS */
