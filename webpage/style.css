@@ -495,11 +495,11 @@ xclip
 }
 
 .section.lb {
-    background-color: #f2f3f5;
+    background-color: #ececec;
 }
 
 .section.db {
-    background-color: #111111;
+    background-color: #5f5f5f;
 }
 
 .section.color1 {
@@ -547,7 +547,7 @@ xclip
 }
 
 .section-title p {
-    color: #999;
+    color: #6e6e6e;
     font-weight: 400;
     font-size: 18px;
     line-height: 33px;
@@ -1298,6 +1298,8 @@ xclip
     line-height: 50px;
     text-align: center;
     margin: -20px auto;
+    border-radius: 6px;
+    transform: scale(1.5)
 }
 
 .service-widget:hover .hoverbutton {
