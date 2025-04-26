@@ -101,7 +101,7 @@ const hideModal = (modal) => {
   gsap.to(modal, {
     opacity: 0,
     duration: 0.5,
-    onComplelte: () => {
+    onComplete: () => {
       modal.style.display = "none"
     }
   })
@@ -261,18 +261,29 @@ function handleRaycasterInteraction() {
       }
     });
 
-    if (object.name == "monitor_screen_raycaster") {
-      showModal(modals.about)
-    }
+    const iframeModal = document.querySelector(".iframe-modal");
+    const iframeViewer = document.getElementById("iframe-viewer");
+
     if (object.name == "frame1_screen_raycaster") {
-      showModal(modals.cerA)
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Network.png");
     }
     if (object.name == "frame2_screen_raycaster") {
-      showModal(modals.cerCSIS)
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_CSIS.png");
     }
     if (object.name == "frame3_screen_raycaster") {
-      showModal(modals.cerNet)
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Security.png");
     }
+
+    function showIframe(src) {
+      iframeViewer.src = src;
+      showModal(iframeModal);
+    }
+
+    iframeModal.addEventListener("click", (event) => {
+      if (event.target === iframeModal) {
+        hideModal(iframeModal);
+      }
+    });
     
   }
 }
@@ -282,8 +293,6 @@ window.addEventListener("touchend", (event)=> {
   handleRaycasterInteraction();
 }, {passive: false}
 );
-
-
 
 // function for mouse-interactions
 window.addEventListener("click", handleRaycasterInteraction);

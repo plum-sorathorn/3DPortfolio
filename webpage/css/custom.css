@@ -31,5 +31,42 @@ transition: transform 0.3s ease;
 .certificate-item img:hover {
 transform: scale(1.05);
 }
-  
-  
+
+.gallery-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.gallery-grid {
+    flex: 0 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        flex: 0 1 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-grid {
+        flex: 0 1 100%;
+    }
+}
+
+/* Center the certificates and logos better */
+.certificates-gallery {
+    justify-content: center;
+}
+
+/* Linked logos hover slightly */
+.linked-logos {
+    transform: scale(0.8);
+    transition: transform 0.6s ease;
+}
+
+.linked-logos:hover {
+    transform: scale(0.9);
+}

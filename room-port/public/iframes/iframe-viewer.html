@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Certificate Viewer</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <img id="certificate" src="" alt="Certificate">
+  
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const imgSrc = params.get("img");
+    if (imgSrc) {
+      document.getElementById("certificate").src = imgSrc;
+    }
+  </script>
+</body>
+</html>
