@@ -70,3 +70,24 @@ transform: scale(1.05);
 .linked-logos:hover {
     transform: scale(0.9);
 }
+
+/* styles for navbar icons */
+.navbar-icons {
+    width: 30px;
+    height: 30px;
+}
+
+/* styles for project texts */
+.project-header {
+    padding: 15px 15px 15px 15px;
+}
+
+.project-desc {
+    padding: 15px 15px 15px 15px;
+}
+
+.project-images{
+    position: relative; 
+    padding-top: 5px; 
+    background-color: white;
+}

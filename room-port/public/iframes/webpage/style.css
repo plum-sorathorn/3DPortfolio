@@ -1502,6 +1502,8 @@ hr.invis1 {
 
 .post-thumb{
 	position: relative;
+    display: flex;
+    justify-content: center;
     padding: 30px 10px 30px 10px;
     height: 200px;
 }

@@ -58,11 +58,17 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#certifications">Certifications</a>
             </li>
-			<li class="nav-item">
+			      <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#experiences">Work Experience</a>
             </li>
-			<li class="nav-item">
+			      <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="https://github.com/plum-sorathorn" target="_blank"><img src="uploads/github.png" class="img-fluid navbar-icons" ></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="https://www.linkedin.com/in/sorathorn-thongpitukthavorn/" target="_blank"><img src="uploads/linkedin.png" class="img-fluid navbar-icons" style="transform: scale(1.2);" ></a>
             </li>
           </ul>
         </div>
@@ -76,8 +82,7 @@
 			<h3 class="cd-headline clip is-full-width">
 				<span>The fields I'm passionate about include </span>
 				<span class="cd-words-wrapper">
-					<b class="is-visible">Software Engineering</b>
-					<b>Web Development</b>
+					<b class="is-visible">Software Development</b>
 					<b>Cloud Infrastructure</b>
 					<b>Cybersecurity</b>
 				</span>
@@ -116,8 +121,8 @@
                 <div class="col-md-6">
                     <div class="message-box">                        
                         <h2>About Me.</h2>
-                        <p> Hi, I'm Plum! I'm a Computer Science student with a strong background in software engineering, web development, cloud infrastructure, and cybersecurity. Certified in Security+, Network+, and A+, I love building real-world projects, from secure SIEM setups with Wazuh to cloud web apps on Google Cloud. </p>
-						<p> My passion lies in optimizing efficiency and crafting functional yet imaginative designs. Whether it's developing interactive 3D experiences for dynamic portfolios, streamlining deployments through CI/CD automation, or engineering tools that tackle daily challenges. I actively explore and grow my expertise in DevOps, AI, and cloud engineering, consistently seeking innovative approaches to enhance both technology and user experience. </p>
+                        <p> Hi, I'm Plum! I'm a Computer Science student with a background in web development, cloud infrastructure, and cybersecurity. Certified in Security+, Network+, and A+, I love building real-world projects, from secure SIEM setups with Wazuh to cloud web apps on Google Cloud. </p>
+						            <p> My passion lies in optimizing efficiency and crafting functional yet imaginative designs. Whether it's developing interactive 3D experiences for dynamic portfolios, streamlining deployments through CI/CD automation, or engineering tools that tackle daily challenges. I actively explore and grow my expertise in DevOps, AI, and cloud engineering, consistently seeking innovative approaches to enhance both technology and user experience. </p>
                         <a href="cv/resume.pdf" target="_blank" class="sim-btn btn-hover-new" data-text="Download Resume"><span>Download Resume</span></a>
                     </div><!-- end messagebox -->
                 </div><!-- end col -->
@@ -142,116 +147,77 @@
 				<div class="col-md-12">
 					<div class="button-group filter-button-group text-left">
 						<button class="active" data-filter="*">All</button>
-						<button data-filter=".filter_web">Web Development</button>
+						<button data-filter=".filter_soft">Software Development</button>
 						<button data-filter=".filter_cyber">Cybersecurity</button>
 						<button data-filter=".filter_cloud">Cloud Platforms</button>
-                        <button data-filter=".filter_func">Functional Programming</button>
 					</div>
 				</div>
 			</div>
 			
 			<div class="gallery-list row">
                 
-                <!-- qr code generator and url shortener -->
-				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_web">
+        <!-- qr code generator and url shortener -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_soft">
 					<div class="gallery-single fix">
-						<img src="uploads/qrgen.png" class="img-fluid" alt="Image">
+						<img src="uploads/qrgen.png" class="img-fluid project-images" alt="Image" style="background-color: #f4f4f4;">
 						<div class="img-overlay">
 							<a href="https://github.com/plum-sorathorn/qr-and-url-on-google-cloud" target="_blank" class="hoverbutton global-radius">
-                                <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
-                            </a>
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
 						</div>
+            <h4 class="project-header">QR Code Generator and URL Shortener</h4>
+            <p class="project-desc">A web-based tool hosted on Google Cloud that generates QR codes and shortens URLs for easy sharing and tracking.</p>
 					</div>
 				</div>
                 
-                <!-- aws wazuh siem -->
+        <!-- aws wazuh siem -->
 				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_cyber">
 					<div class="gallery-single fix">
-						<img src="uploads/cloud_security.png" class="img-fluid" alt="Image">
+						<img src="uploads/cloud_security.png" class="img-fluid project-images" alt="Image">
 						<div class="img-overlay">
 							<a href="https://github.com/plum-sorathorn/wazuh-siem-project" target="_blank" class="hoverbutton global-radius">
-                                <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
-                            </a>
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
 						</div>
+            <h4 class="project-header" style="height: 71px;">AWS Wazuh SIEM</h4>
+            <p class="project-desc">A cloud-deployed Security Information and Event Management (SIEM) solution using Wazuh on AWS to monitor, detect, and respond to security threats.</p>
 					</div>
 				</div>
 				
-                <!-- pocket vault (usb-based password manager) -->   
-				<div class="col-md-4 col-sm-6 gallery-grid filter_web filter_cyber">
+        <!-- pocket vault (usb-based password manager) -->   
+				<div class="col-md-4 col-sm-6 gallery-grid filter_soft filter_cyber">
 					<div class="gallery-single fix">
-						<img src="uploads/pocketvault.png" class="img-fluid" alt="Image" style="position: relative; top: 10px">
+						<img src="uploads/pocketvault.png" class="img-fluid project-images" alt="Image">
 						<div class="img-overlay">
 							<a href="https://github.com/kcheb27/EC521_final_proj" target="_blank" class="hoverbutton global-radius">
-                                <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
-                            </a>
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
 						</div>
+            <h4 class="project-header">Pocket Vault (USB-Based Password Manager)</h4>
+            <p class="project-desc">A secure, portable password manager that runs from a USB device, ensuring safe, offline storage and management of credentials.</p>
 					</div>
 				</div>
 
-                <!-- fill-in for now -->
-                <div class="col-md-4 col-sm-6 gallery-grid gal_b gal_a">
+        <!-- Ocaml Interpreter -->
+        <div class="col-md-4 col-sm-6 gallery-grid filter_soft">
 					<div class="gallery-single fix">
-					</div>
-				</div>
-
-                <!-- Ocaml Interpreter -->
-                <div class="col-md-4 col-sm-6 gallery-grid filter_func">
-					<div class="gallery-single fix">
-						<img src="uploads/interpreter.png" class="img-fluid" alt="Image">
+						<img src="uploads/interpreter.png" class="img-fluid project-images" alt="Image">
 						<div class="img-overlay">
 							<a href="https://github.com/plum-sorathorn/cs320-spring-2024-private" target="_blank" class="hoverbutton global-radius">
-                                <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
-                            </a>
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
 						</div>
+            <h4 class="project-header">Ocaml Interpreter</h4>
+            <p class="project-desc">An interpreter for a subset of OCaml, developed to parse, evaluate, and execute expressions as part of a programming languages course project.</p>
 					</div>
 				</div>
 
-                
 			</div>
 		</div>
 	</div>
 	
-    <div id="certifications" class="section wb">
-        <div class="container">
-          <div class="section-title text-left">
-            <h3>Certifications</h3>
-          </div><!-- end title -->
-      
-          <div class="row">
-            <div class="col-md-12 col-sm-12">
-              <div class="certificates-gallery">
-                
-                <!-- A+ cert -->
-                <div class="certificate-item">
-                    <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                      <img src="uploads/CompTIA_A.png" alt="Certificate 1" class="img-fluid">
-                    </a>
-                    <p class="cert-code">Code: <strong>Q5Y8XDBP7D44QTS7</strong></p>
-                </div>
-                  
-                <!-- Network+ cert -->
-                <div class="certificate-item">
-                    <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                      <img src="uploads/CompTIA_Network.png" alt="Certificate 1" class="img-fluid">
-                    </a>
-                    <p class="cert-code">Code: <strong>55S80NXZNBVE1HWT</strong></p>
-                </div>
 
-                <!-- Security+ cert -->
-                <div class="certificate-item">
-                    <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                      <img src="uploads/CompTIA_Security.png" alt="Certificate 1" class="img-fluid">
-                    </a>
-                    <p class="cert-code">Code: <strong>6Q5W0ZX6NM141B3G</strong></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-      
-	
-    <div id="experiences" class="section lb">
+    <div id="experiences" class="section wb">
       <div class="container">
         <div class="section-title text-left">
           <h3>Work Experience</h3>
@@ -259,17 +225,53 @@
         </div>
         
         <div class="row">
+          <!-- Datapro Computer Systems - Systems Engineer 
+          <div class="col-md-4 col-sm-6 col-lg-4">
+            <div class="post-box">
+              <div class="post-thumb">
+                <img src="uploads/dcs-logo.png" class="img-fluid" alt="DCS Logo" />
+              </div>
+              <div class="post-info">
+                <h4>Datapro Computer Systems</h4>
+                <h4>Systems Engineer</h4>
+                <ul>
+                  <li>May 19, 2025 to Present</li>
+                  <li>Bangkok, Thailand</li>
+                </ul>
+                <p>Not yet</p>
+              </div>
+            </div>
+          </div>
+          -->
+          <!-- Asia Inter Rice – IT Support Technician -->
+          <div class="col-md-4 col-sm-6 col-lg-4">
+            <div class="post-box">
+              <div class="post-thumb">
+                <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" style="transform: scale(0.7);" >
+              </div>
+              <div class="post-info">
+                <h4>Asia Inter Rice</h4>
+                <h4>IT Support Technician</h4>
+                <ul>
+                  <li>May 13, 2024 to July 12, 2024</li>
+                  <li>Bangkok, Thailand</li>
+                </ul>
+                <p>Refurbished 30+ PCs (RAM upgrades, component swaps), removed malware, and renewed 30 software licenses in-house—driving ~$50K in cost savings over 8 weeks.</p>
+              </div>
+            </div>
+          </div>
+
           <!-- SIP Bangkok Bank Internship -->
           <div class="col-md-4 col-sm-6 col-lg-4">
             <div class="post-box">
               <div class="post-thumb">
-                <img src="uploads/bangkok-bank-logo.png" class="img-fluid" alt="Bangkok Bank Logo" />
+                <img src="uploads/bangkok-bank-logo.png" class="img-fluid" alt="Bangkok Bank Logo" style="transform: scale(0.8);">
               </div>
               <div class="post-info">
                 <h4>SIP Bangkok Bank</h4>
                 <h4>Intern</h4>
                 <ul>
-                  <li>July 16 - August 7, 2024</li>
+                  <li>July 16, 2024 to August 7, 2024</li>
                   <li>Bangkok, Thailand</li>
                 </ul>
                 <p>Led R&D for a Wolffia globosa-based soup startup, developing a high-protein (18-25 g/50 g) recipe and winning 2nd place in a start-up pitch competition amongst 8 teams</p>
@@ -277,28 +279,51 @@
             </div>
           </div>
     
-          <!-- Asia Inter Rice – IT Support Technician -->
-          <div class="col-md-4 col-sm-6 col-lg-4">
-            <div class="post-box">
-              <div class="post-thumb">
-                <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" />
-              </div>
-              <div class="post-info">
-                <h4>Asia Inter Rice</h4>
-                <h4>IT Support Technician</h4>
-                <ul>
-                  <li>May 13 - July 12, 2024</li>
-                  <li>Bangkok, Thailand</li>
-                </ul>
-                <p>Refurbished 30+ PCs (RAM upgrades, component swaps), removed malware, and renewed 30 software licenses in-house—driving ~$50K in cost savings over 8 weeks.</p>
-              </div>
-            </div>
-          </div>
         </div>
     
       </div>
     </div>
     
+    <div id="certifications" class="section lb">
+      <div class="container">
+        <div class="section-title text-left">
+          <h3>Certifications</h3>
+        </div><!-- end title -->
+    
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="certificates-gallery">
+              
+              <!-- A+ cert -->
+              <div class="certificate-item">
+                  <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="uploads/CompTIA_A.png" alt="Certificate 1" class="img-fluid">
+                  </a>
+                  <p class="cert-code">Code: <strong>Q5Y8XDBP7D44QTS7</strong></p>
+              </div>
+                
+              <!-- Network+ cert -->
+              <div class="certificate-item">
+                  <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="uploads/CompTIA_Network.png" alt="Certificate 1" class="img-fluid">
+                  </a>
+                  <p class="cert-code">Code: <strong>55S80NXZNBVE1HWT</strong></p>
+              </div>
+
+              <!-- Security+ cert -->
+              <div class="certificate-item">
+                  <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="uploads/CompTIA_Security.png" alt="Certificate 1" class="img-fluid">
+                  </a>
+                  <p class="cert-code">Code: <strong>6Q5W0ZX6NM141B3G</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    
+
 
     <div id="contact" class="section db">
       <div class="container">

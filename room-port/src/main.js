@@ -59,14 +59,15 @@ let pointerNeedsUpdate = false;
 
 // hover animation variables
 let currentHoveredContacts = null;
+
 let currentHoveredFrames = null;
+
 let currentHoveredHologram = null;
 
 let currentHoveredTesseract = null;
 let innerTesseract = null;
 let outerTesseract = null;
 
-let currentHoveredScreen = null;
 let currentHoveredChair = null;
 
 
@@ -295,11 +296,25 @@ controls.minDistance = 5;
 controls.maxDistance = 40;
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
+
 controls.update();
 
 // set starting postion and camera angle
 camera.position.set(10, 15, -10);
 controls.target.set(0, 10, 0);
+
+let v = new THREE.Vector3();
+
+const minPan = new THREE.Vector3(-7, 3, -5); // min panning limits
+const maxPan = new THREE.Vector3(7, 15, 7); // max panniong limits
+
+controls.addEventListener('change', () => {
+    v.copy(controls.target)
+    controls.target.clamp(minPan, maxPan);
+
+    v.sub(controls.target);
+    camera.position.sub(v);
+});
 
 /* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
 
@@ -621,46 +636,12 @@ function tesseractHoverAnimation(object, isHovering) {
   }
 }
 
-
-// mouse-hovering animation for monitor screen
-function screenHoverAnimation(object, isHovering) {
-//   object.userData.isHovered = isHovering; // Update hover state
-//   gsap.killTweensOf(object.material.color);
-  
-//   if (isHovering) {
-//   // Stop the default pulsing animation
-//   stopMonitorPulse(object);
-//     // Start the glow tween - stay bright as long as hovered
-//   gsap.to(object.material.color, {
-//     r: object.material.color.r * 1.7,
-//     g: object.material.color.g * 1.7,
-//     b: object.material.color.b * 1.7,
-//     duration: 0.3, // Quick transition to glow
-//     ease: "power1.out",
-//    });
-//   } else {
-//     // Tween color back to the base color after hover ends
-//     gsap.to(object.material.color, {
-//       r: object.material.color.r * (10/17),
-//       g: object.material.color.g * (10/17),
-//       b: object.material.color.b * (10/17),
-//       duration: 0.5, // Fade out glow
-//       ease: "power1.in",
-//       onComplete: () => {
-//         // Resume the default pulsing animation after the fade out
-//         startMonitorPulse(object);
-//       }
-//     });
-//    }
-  }
-
 // mouse hovering animation for chair
 function chairHoverAnimation(object, isHovering) {
   gsap.killTweensOf(object.rotation);
 
   if (isHovering) {
     object.userData.isAnimating = true;
-    object.userData.isClicked   = true;
 
     gsap.to(object.rotation, {
       y: object.userData.initialRotation.y * 1 + Math.PI / 8,
@@ -673,7 +654,6 @@ function chairHoverAnimation(object, isHovering) {
           ease: "power2.inOut",
           onComplete: () => {
             object.userData.isAnimating = false;
-            object.userData.isClicked   = false;
           }
         });
       }
@@ -830,16 +810,6 @@ const render = () => {
         }
       }
 
-      // Animation for screen (monitor)
-      if (currentIntersectObject.name.includes("monitor_screen")) {
-        if (currentIntersectObject !== currentHoveredScreen) {
-          if (currentHoveredScreen)
-            screenHoverAnimation(currentHoveredScreen, false);
-          screenHoverAnimation(currentIntersectObject, true);
-          currentHoveredScreen = currentIntersectObject;
-        }
-      }
-
       // Animation for chair
       if (
         currentIntersectObject.name.includes("chair") &&
@@ -887,11 +857,6 @@ const render = () => {
     if (currentHoveredTesseract){
       tesseractHoverAnimation(currentHoveredTesseract, false);
       currentHoveredTesseract = null;
-    }
-    // Animations for screen (monitor)
-    if (currentHoveredScreen){
-      screenHoverAnimation(currentHoveredScreen, false);
-      currentHoveredScreen = null;
     }
 
     // Animations for chair
