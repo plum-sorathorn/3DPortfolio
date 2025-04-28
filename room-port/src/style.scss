@@ -56,7 +56,6 @@ html, body {
   position: fixed;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(8px);
   background: rgba(0, 0, 0, 0.3); // optional soft overlay
   align-content: center;
 
@@ -73,11 +72,19 @@ html, body {
     border: none;
   }
 
+  @media (min-width: 768px) {
+    // for non-screens, scale up.
+    .iframe-container {
+      scale: (4);
+    }
+  }
+
+
   .modal-exit-button {
     position: absolute;
     background-color: transparent;
     right: 1px;
-    top: 0;
+    top: -4px;
     border: none;
     width: 45px;
     height: 20px;
@@ -102,7 +109,6 @@ html, body {
   width: 100%;
   height: 100%;
   position: fixed;
-  backdrop-filter: blur(8px);
   background: rgba(0,0,0,0.3);
   align-content: center;
 

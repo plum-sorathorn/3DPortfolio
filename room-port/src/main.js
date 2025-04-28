@@ -7,7 +7,6 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import gsap from "gsap"
-import { texture } from 'three/src/nodes/TSL.js';
 
 // Cache DOM elements
 const modalExitButtons = document.querySelectorAll(".modal-exit-button");
@@ -69,6 +68,9 @@ let outerTesseract = null;
 
 let currentHoveredScreen = null;
 let currentHoveredChair = null;
+
+
+let monitorScreenObject = null;
 
 // define links for contact
 const contacts = {
@@ -134,11 +136,11 @@ const updatePointer = (clientX, clientY) => {
 const fans = [];
 
 // create const for inner tesseract for animation
-const tesseracts = []
+const tesseracts = [];
 let innerOriginalIntensity = null;
 
-// create const for chair for animation
-const chairs = []
+// create const for monitor animations
+const monitor = [];
 
 /* END OF VARIABLE DECLARTIONS */
 
@@ -148,15 +150,15 @@ const textureMap = {
   wall: { texture: "/textures/TextureSet1_room.webp" },
   shelf: { texture: "/textures/TextureSet2_shelf.webp" },
   table: { texture: "/textures/TextureSet2_table.webp" },
-  monitor_screen_raycaster: { texture: "/images/monitor_background.jpg" },
+  monitor_screen_raycaster: { texture: "/textures/TextureMon_Back.webp" },
   monitor: { texture: "/textures/TextureSet3_monitor.webp" },
   keyboard: { texture: "/textures/TextureSet3_keyboard.webp" },
   pc: { texture: "/textures/TextureSet4.webp" },
   fans1: {}, fans2: {}, fans3: {},
   frames: { texture: "/textures/TextureSet5.webp" },
-  frame1_screen_raycaster: { texture: "/images/CompTIA_Network.png" },
-  frame2_screen_raycaster: { texture: "/images/CompTIA_CSIS.png" },
-  frame3_screen_raycaster: { texture: "/images/CompTIA_Security.png" },
+  frame1_screen_raycaster: { texture: "/textures/TextureCer_Net.webp" },
+  frame2_screen_raycaster: { texture: "/textures/TextureCer_CSIS.webp" },
+  frame3_screen_raycaster: { texture: "/textures/TextureCer_Sec.webp" },
   drawers: { texture: "/textures/TextureSet6.webp" },
   chair_top_raycaster: { texture: "/textures/TextureSet7.webp" },
   chair_bottom: { texture: "/textures/TextureSet7.webp" },
@@ -170,20 +172,6 @@ const textureMap = {
   tesseract_inner_raycaster: {},
   tesseract_outer_raycaster: {},
 };
-
-// precalc texture keys
-const textureKeys = Object.keys(textureMap);
-// load textures onto models
-const loadedTextures = { texture: {} };
-for (const key of textureKeys) {
-  const path = textureMap[key].texture;
-  if (path) {
-    const currentTexture = textureLoader.load(path);
-    currentTexture.flipY = false;
-    currentTexture.colorSpace = THREE.SRGBColorSpace;
-    loadedTextures.texture[key] = currentTexture;
-  }
-}
 
 /* LOADING OF VIDEO TEXTURES */
 
@@ -279,6 +267,81 @@ window.addEventListener("click", event => {
 
 /* END OF RAYCASTER INTERACTIONS */
 
+/* SETTING UP SCENE, CAMERA, AND LIGHTING */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
+
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass(scene, camera);
+composer.addPass(renderPass);
+const unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.1, 1);
+composer.addPass(unrealBloomPass);
+
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.minPolarAngle = 0;
+controls.maxPolarAngle = Math.PI / 2;
+controls.minAzimuthAngle = Math.PI / 2.25;
+controls.maxAzimuthAngle = -Math.PI / 1;
+controls.minDistance = 5;
+controls.maxDistance = 40;
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.update();
+
+// set starting postion and camera angle
+camera.position.set(10, 15, -10);
+controls.target.set(0, 10, 0);
+
+/* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
+
+// precalc texture keys
+const textureKeys = Object.keys(textureMap);
+// load textures onto models
+const loadedTextures = { texture: {} };
+for (const key of textureKeys) {
+  const path = textureMap[key].texture;
+  if (path) {
+    const currentTexture = textureLoader.load(path);
+    currentTexture.flipY = false;
+    currentTexture.colorSpace = THREE.SRGBColorSpace;
+    loadedTextures.texture[key] = currentTexture;
+
+  }
+}
+
+/* START OF DEFAULT ANIMATION FUNCTIONS */
+
+// Default pulsing animation for the monitor screen
+function startMonitorPulse(object) {
+  if (object && object.material.color && !object.userData.isHovered) {
+      gsap.killTweensOf(object.material.color);
+
+      if (!object.userData.pulseTween || !object.userData.pulseTween.isActive()) {
+           object.userData.pulseTween = gsap.to(object.material.color, {
+               r: object.material.color.r * 1.9,
+               g: object.material.color.g * 1.9,
+               b: object.material.color.b * 1.9,
+               duration: 0.7,
+               ease: "sine.inOut",
+               yoyo: true,
+               repeat: -1,
+           });
+      } else {
+           object.userData.pulseTween.resume();
+      }
+  }
+}
+/* END OF DEFAULT ANIMATION FUNCTIONS */
+
 /* MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
 loader.load("/models/room_test-v1.glb", glb => {
   glb.scene.traverse(child => {
@@ -372,47 +435,22 @@ loader.load("/models/room_test-v1.glb", glb => {
         child.userData.isAnimating = false;
         child.userData.isClicked = false;
       }
+
+      if (child.name.includes("monitor_screen_raycaster")) {
+        monitorScreenObject = child;
+    }
+
       break;
     }
   });
   scene.add(glb.scene);
+
+  if (monitorScreenObject) {
+    startMonitorPulse(monitorScreenObject);
+  }
 });
 
 /* END OF MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
-
-/* SETTING UP SCENE, CAMERA, AND LIGHTING */
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
-
-const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-const composer = new EffectComposer(renderer);
-const renderPass = new RenderPass(scene, camera);
-composer.addPass(renderPass);
-const unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.1, 1);
-composer.addPass(unrealBloomPass);
-
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.minPolarAngle = 0;
-controls.maxPolarAngle = Math.PI / 2;
-controls.minAzimuthAngle = Math.PI / 2.25;
-controls.maxAzimuthAngle = -Math.PI / 1;
-controls.minDistance = 5;
-controls.maxDistance = 40;
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.update();
-camera.position.set(12, 16, -12);
-controls.target.set(0, 8, 0);
-
-/* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
 
 /* START OF MOUSE HOVERING ANIMATIONS */
 
@@ -586,29 +624,35 @@ function tesseractHoverAnimation(object, isHovering) {
 
 // mouse-hovering animation for monitor screen
 function screenHoverAnimation(object, isHovering) {
-  // kill any running glow tweens
-  gsap.killTweensOf(object.material.color);
-
-  if (isHovering) {
-    // pulse material color toward white and back
-    gsap.to(object.material.color, {
-      r: 1, g: 1, b: 1,
-      duration: 0.6,
-      yoyo: true,
-      repeat: -1,
-      ease: "sine.inOut"
-    });
-  } else {
-    // restore original tint
-    gsap.to(object.material.color, {
-      r: object.material.color.r * 0.8,
-      g: object.material.color.g * 0.8,
-      b: object.material.color.b * 0.8,
-      duration: 0.3,
-      ease: "none"
-    });
+//   object.userData.isHovered = isHovering; // Update hover state
+//   gsap.killTweensOf(object.material.color);
+  
+//   if (isHovering) {
+//   // Stop the default pulsing animation
+//   stopMonitorPulse(object);
+//     // Start the glow tween - stay bright as long as hovered
+//   gsap.to(object.material.color, {
+//     r: object.material.color.r * 1.7,
+//     g: object.material.color.g * 1.7,
+//     b: object.material.color.b * 1.7,
+//     duration: 0.3, // Quick transition to glow
+//     ease: "power1.out",
+//    });
+//   } else {
+//     // Tween color back to the base color after hover ends
+//     gsap.to(object.material.color, {
+//       r: object.material.color.r * (10/17),
+//       g: object.material.color.g * (10/17),
+//       b: object.material.color.b * (10/17),
+//       duration: 0.5, // Fade out glow
+//       ease: "power1.in",
+//       onComplete: () => {
+//         // Resume the default pulsing animation after the fade out
+//         startMonitorPulse(object);
+//       }
+//     });
+//    }
   }
-}
 
 // mouse hovering animation for chair
 function chairHoverAnimation(object, isHovering) {
