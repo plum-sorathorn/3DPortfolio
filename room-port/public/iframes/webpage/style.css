@@ -1502,6 +1502,8 @@ hr.invis1 {
 
 .post-thumb{
 	position: relative;
+    padding: 30px 10px 30px 10px;
+    height: 200px;
 }
 
 .post-box{
@@ -1536,7 +1538,6 @@ hr.invis1 {
 	padding: 0px 15px 40px 15px;
 	background: #ffffff;
 	text-align: left;
-	margin-top: 40px;
 }
 
 .post-info p{
@@ -1550,12 +1551,10 @@ hr.invis1 {
 
 .post-info ul{
 	display: block;
-	text-align: center;
 	margin-bottom: 15px;
 }
 .post-info ul li{
 	display: inline-block;
-	text-align: center;
 }
 
 

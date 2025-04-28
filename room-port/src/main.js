@@ -7,6 +7,15 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import gsap from "gsap"
+import { texture } from 'three/src/nodes/TSL.js';
+
+// Cache DOM elements
+const modalExitButtons = document.querySelectorAll(".modal-exit-button");
+const modals = document.querySelectorAll(".modal");
+const iframeModal = document.querySelector(".iframe-modal");
+const iframeViewer = document.getElementById("iframe-viewer");
+const monitorModal = document.querySelector(".monitor-modal");
+const monitorIframe = document.getElementById("monitor-iframe");
 
 const canvas = document.querySelector("#experience-canvas")
 const sizes ={
@@ -14,7 +23,23 @@ const sizes ={
   height: window.innerHeight,
 }
 
-/* START OF VARIABLE DECLARTIONS */
+// Debounce resize
+let resizeTimeout;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    sizes.width = window.innerWidth;
+    sizes.height = window.innerHeight;
+
+    // Camera updating
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Renderer Updating
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }, 200);
+});
 
 // to load textures
 const textureLoader = new THREE.TextureLoader();
@@ -31,6 +56,7 @@ const raycasterObjects = [];
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+let pointerNeedsUpdate = false;
 
 // hover animation variables
 let currentHoveredContacts = null;
@@ -50,35 +76,18 @@ const contacts = {
   linkedin_raycaster: "https://www.linkedin.com/in/sorathorn-thongpitukthavorn/",
 }
 
-// define links for certs (frames)
-const certs = {
-  frame1_screen_raycaster: "",
-  frame2_screen_raycaster: "",
-  frame3_screen_raycaster: "",
-}
-
-// define modals for GSAP animations
-const modals = {
-  about: document.querySelector(".modal.about"),
-  cerA:  document.querySelector(".modal.cerA"),
-  cerCSIS:  document.querySelector(".modal.cerCSIS"),
-  cerNet:  document.querySelector(".modal.cerNet"),
-}
-
 let touchHappened = false;
-document.querySelectorAll(".modal-exit-button").forEach(button =>{
+modalExitButtons.forEach(button =>{
   // Mobile device
   button.addEventListener("touchend", (event) => {
     touchHappened = true;
     const modal = event.target.closest(".modal");
     hideModal(modal);
-  }, 
-  {passive: false,}
-  );
+  }, {passive: false});
 
   // PC or Laptop
   button.addEventListener("click", (event) => {
-    if (touchHappened) {return;}
+    if (touchHappened) return;
     const modal = event.target.closest(".modal");
     hideModal(modal);
   })
@@ -107,6 +116,19 @@ const hideModal = (modal) => {
   })
 }
 
+// helper to update pointer coords
+const updatePointer = (clientX, clientY) => {
+  if (!pointerNeedsUpdate) {
+    pointerNeedsUpdate = true;
+    requestAnimationFrame(() => {
+      pointer.x = (clientX / window.innerWidth) * 2 - 1;
+      pointer.y = - (clientY / window.innerHeight) * 2 + 1;
+      pointerNeedsUpdate = false;
+    });
+  }
+};
+
+/* START OF VARIABLE DECLARTIONS */
 
 // create array of fans to allow for animation
 const fans = [];
@@ -120,64 +142,27 @@ const chairs = []
 
 /* END OF VARIABLE DECLARTIONS */
 
-
 // mapping to texture files
 const textureMap = {
-  bigFloor: {
-    texture: "/textures/TextureSet1_floor.webp",
-  },
-  wall: {
-    texture: "/textures/TextureSet1_room.webp",
-  },
-  hologramBase: {
-    texture: "/textures/TextureSet2_holo_base.webp",
-  },
-  shelf: {
-    texture: "/textures/TextureSet2_shelf.webp",
-  },
-  table: {
-    texture: "/textures/TextureSet2_table.webp",
-  },
-  keyboard: {
-    texture: "/textures/TextureSet3_keyboard.webp",
-  },
-  monitor: {
-    texture: "/textures/TextureSet3_monitor.webp",
-  },
-  pc: {
-    texture: "/textures/TextureSet4.webp",
-  },
-  frames: {
-    texture: "/textures/TextureSet5.webp",
-  },
-  drawers: {
-    texture: "/textures/TextureSet6.webp",
-  },
-  chair_top_raycaster: {
-    texture: "/textures/TextureSet7.webp",
-  },
-  chair_bottom: {
-    texture: "/textures/TextureSet7.webp",
-  },
-  github_raycaster: {
-    texture: "/textures/TextureSet8_github.webp"
-  },
-  linkedin_raycaster: {
-    texture: "/textures/TextureSet8_linkedin.webp"
-  },
+  bigFloor: { texture: "/textures/TextureSet1_floor.webp" },
+  wall: { texture: "/textures/TextureSet1_room.webp" },
+  shelf: { texture: "/textures/TextureSet2_shelf.webp" },
+  table: { texture: "/textures/TextureSet2_table.webp" },
+  monitor_screen_raycaster: { texture: "/images/monitor_background.jpg" },
+  monitor: { texture: "/textures/TextureSet3_monitor.webp" },
+  keyboard: { texture: "/textures/TextureSet3_keyboard.webp" },
+  pc: { texture: "/textures/TextureSet4.webp" },
   fans1: {}, fans2: {}, fans3: {},
-  frame1_screen_raycaster: {
-    texture: "/images/CompTIA_Network.png" 
-  }, 
-  frame2_screen_raycaster: { 
-    texture: "/images/CompTIA_CSIS.png"
-  }, 
-  frame3_screen_raycaster: {
-    texture: "/images/CompTIA_Security.png"
-  },
-  monitor_screen_raycaster: {
-    texture: "/images/monitor_background.jpg"
-  },
+  frames: { texture: "/textures/TextureSet5.webp" },
+  frame1_screen_raycaster: { texture: "/images/CompTIA_Network.png" },
+  frame2_screen_raycaster: { texture: "/images/CompTIA_CSIS.png" },
+  frame3_screen_raycaster: { texture: "/images/CompTIA_Security.png" },
+  drawers: { texture: "/textures/TextureSet6.webp" },
+  chair_top_raycaster: { texture: "/textures/TextureSet7.webp" },
+  chair_bottom: { texture: "/textures/TextureSet7.webp" },
+  github_raycaster: { texture: "/textures/TextureSet8_github.webp" },
+  linkedin_raycaster: { texture: "/textures/TextureSet8_linkedin.webp" },
+  hologramBase: { texture: "/textures/TextureSet2_holo_base.webp" },
   hologram_screen_raycaster: {},
   hologram_ball: {},
   hologram_cone: {},
@@ -186,17 +171,19 @@ const textureMap = {
   tesseract_outer_raycaster: {},
 };
 
+// precalc texture keys
+const textureKeys = Object.keys(textureMap);
 // load textures onto models
-const loadedTextures = {
-  texture: {},
+const loadedTextures = { texture: {} };
+for (const key of textureKeys) {
+  const path = textureMap[key].texture;
+  if (path) {
+    const currentTexture = textureLoader.load(path);
+    currentTexture.flipY = false;
+    currentTexture.colorSpace = THREE.SRGBColorSpace;
+    loadedTextures.texture[key] = currentTexture;
+  }
 }
-
-Object.entries(textureMap).forEach(([key, paths])=>{
-  const currentTexture = textureLoader.load(paths.texture);
-  currentTexture.flipY = false;
-  currentTexture.colorSpace = THREE.SRGBColorSpace;
-  loadedTextures.texture[key] = currentTexture;
-});
 
 /* LOADING OF VIDEO TEXTURES */
 
@@ -207,23 +194,14 @@ holoVideo.loop = true;
 holoVideo.muted = true;
 holoVideo.autoplay = true;
 const playHoloVideo = () => {
-  holoVideo.play().catch(error => {
-      console.error("Error playing holo video:", error);
-  });
+  holoVideo.play().catch(error => console.error("Error playing holo video:", error));
 };
 setTimeout(playHoloVideo, 500);
 
-// Add event listener for visibility change
 document.addEventListener("visibilitychange", handleVisibilityChange);
-// Function to handle video playback based on tabs
 function handleVisibilityChange() {
-  if (document.hidden) {
-    holoVideo.pause();
-  } else {
-    holoVideo.play().catch(error => {
-      console.error("Holo Autoplay prevented:", error);
-    });
-  }
+  if (document.hidden) holoVideo.pause();
+  else holoVideo.play().catch(error => console.error("Holo Autoplay prevented:", error));
 }
 
 const holoVideoTexture = new THREE.VideoTexture(holoVideo);
@@ -232,27 +210,22 @@ holoVideoTexture.colorSpace = THREE.SRGBColorSpace;
 /* END OF LOADING OF VIDEO TEXTURES */
 
 /* RAYCASTER INTERACTIONS */
-// function for raycaster (triggers for mouse hovers)
-window.addEventListener("mousemove", (event)=> {
+// pointer update events
+window.addEventListener("mousemove", event => {
   touchHappened = false;
-  pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-})
-
-window.addEventListener("touchstart", (event)=> {
+  updatePointer(event.clientX, event.clientY);
+});
+window.addEventListener("touchstart", event => {
   event.preventDefault();
-  pointer.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
-	pointer.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
-  },
-  {passive: false,}
-)
+  updatePointer(event.touches[0].clientX, event.touches[0].clientY);
+}, { passive: false });
 
 function handleRaycasterInteraction() {
-  if(currentIntersects.length > 0){
+  if (currentIntersects.length > 0) {
     const object = currentIntersects[0].object;
 
     Object.entries(contacts).forEach(([key, url]) => {
-      if(object.name.includes(key)) {
+      if (object.name.includes(key)) {
         const newWindow = window.open();
         newWindow.opener = null;
         newWindow.location = url;
@@ -261,176 +234,145 @@ function handleRaycasterInteraction() {
       }
     });
 
-    const iframeModal = document.querySelector(".iframe-modal");
-    const iframeViewer = document.getElementById("iframe-viewer");
+    if (object.name == "frame1_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Network.png");
+    if (object.name == "frame2_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_CSIS.png");
+    if (object.name == "frame3_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Security.png");
 
-    if (object.name == "frame1_screen_raycaster") {
-      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Network.png");
-    }
-    if (object.name == "frame2_screen_raycaster") {
-      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_CSIS.png");
-    }
-    if (object.name == "frame3_screen_raycaster") {
-      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Security.png");
-    }
-
-    function showIframe(src) {
-      iframeViewer.src = src;
-      showModal(iframeModal);
-    }
-
-    iframeModal.addEventListener("click", (event) => {
-      if (event.target === iframeModal) {
-        hideModal(iframeModal);
-      }
-    });
-    
+    if (object.name.includes("monitor_screen_raycaster")) showMonitorIframe("/iframes/webpage/index.html");
   }
 }
 
-window.addEventListener("touchend", (event)=> {
-  event.preventDefault();
-  handleRaycasterInteraction();
-}, {passive: false}
-);
+modalExitButtons.forEach(button => button); // ensure modalExitButtons used after
 
-// function for mouse-interactions
+// reuse showModal/hideModal from above
+function showIframe(src) {
+  iframeViewer.src = src;
+  showModal(iframeModal);
+}
+function showMonitorIframe(src) {
+  monitorIframe.src = src;
+  showModal(monitorModal);
+}
+
+modals.forEach(modal => {
+  if (!touchHappened) modal.addEventListener('click', e => e.target === modal && hideModal(modal));
+  modal.addEventListener('touchend', e => e.target === modal && hideModal(modal), { passive: false });
+});
+
+window.addEventListener("touchend", event => { event.preventDefault(); handleRaycasterInteraction(); }, { passive: false });
 window.addEventListener("click", handleRaycasterInteraction);
+
+window.addEventListener("click", event => {
+  const intersects = raycaster.intersectObjects(raycasterObjects);
+  if (!intersects.length) return;
+  const obj = intersects[0].object;
+  if (obj.name.includes("chair")) {
+    obj.userData.isClicked = !obj.userData.isClicked;
+    chairClickAnimation(obj, obj.userData.isClicked);
+  }
+  if (obj.name.includes("tesseract")) {
+    obj.userData.isClicked = !obj.userData.isClicked;
+    tesseractClickAnimation(obj);
+  }
+  if (obj.name.includes("hologram_screen")) holoscreenClickAnimation(obj);
+});
 
 /* END OF RAYCASTER INTERACTIONS */
 
 /* MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
+loader.load("/models/room_test-v1.glb", glb => {
+  glb.scene.traverse(child => {
+    if (!child.isMesh) return;
+    
+    for (const key of textureKeys) {
+      if (!child.name.includes(key)) continue;
 
-// main function to load and adjust each object in the 3d model
-loader.load("/models/room_test-v1.glb", (glb)=> {
-  glb.scene.traverse(child =>{
-    if (child.isMesh){
-      Object.keys(textureMap).forEach(key=>{
-        if(child.name.includes(key)){
-          const material = new THREE.MeshBasicMaterial({
-            map: loadedTextures.texture[key]
-          });
+      let material;
+      if (child.name.includes("glass")) {
+        material = new THREE.MeshPhysicalMaterial({
+          color: 0xe1e1e1,
+          transmission: 1,
+          opacity: 0.5,
+          metalness: 0,
+          roughness: 0,
+          ior: 1.0,
+          thickness: 0.01,
+          specularIntensity: 1,
+          envMapIntensity: 1,
+          lightMapIntensity: 1,
+          transparent: true,
+          depthWrite: false,
+        });
+      } else if (child.name.includes("fans")) {
+        material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        child.rotation.x = -Math.PI / 2;
+        child.rotation.z = -10 * (Math.PI / 180);
+        child.position.z += 0.1;
+        fans.push(child);
+      } else if (child.name == "tesseract_inner_raycaster") {
+        material = new THREE.MeshPhysicalMaterial({
+          transmission: 0.9,
+          opacity: 0.6,
+          roughness: 0.05,
+          metalness: 0,
+          ior: 1.5,
+          emissive: 0x0c1faff,
+          emissiveIntensity: 1.5,
+          side: THREE.DoubleSide,
+          depthWrite: false
+        });
+        innerOriginalIntensity = material.emissiveIntensity;
+        innerTesseract = child;
+        tesseracts.push(child);
+      } else if (child.name == "tesseract_outer_raycaster") {
+        material = new THREE.MeshPhysicalMaterial({
+          emissive: 0x0c1faff,
+          opacity: 0.3,
+          metalness: 0,
+          roughness: 0.1,
+          transparent: true,
+          depthWrite: false,
+          blendEquation: THREE.AdditiveBlending,
+        });
+        outerTesseract = child;
+      } else if (child.name.includes("hologram_ball") || child.name.includes("hologram_cone")) {
+        const emissiveColor = child.name.includes("hologram_ball") ? 0x0c1faff : 0x003335;
+        material = new THREE.MeshPhysicalMaterial({
+          transmission: 0.9,
+          opacity: child.name.includes("hologram_ball") ? 0.6 : 0.5,
+          roughness: 0.05,
+          metalness: 0,
+          ior: 1.5,
+          emissive: emissiveColor,
+          emissiveIntensity: 0.7,
+          side: THREE.DoubleSide,
+          depthWrite: false
+        });
+      } else if (child.name.includes("hologram_screen")) {
+        material = new THREE.MeshBasicMaterial({
+          opacity: 0.5,
+          transparent: true,
+          depthWrite: false,
+          map: holoVideoTexture,
+          side: THREE.DoubleSide,
+        });
+        material.color.setHex(0x00bd99).multiplyScalar(5);
+      } else {
+        material = new THREE.MeshBasicMaterial({ map: loadedTextures.texture[key] });
+        if (material.map) material.map.minFilter = THREE.LinearFilter;
+      }
 
-          child.material = material;
-          
-          if(child.material.map){
-            child.material.map.minFilter = THREE.LinearFilter;
-          }
+      child.material = material;
 
-          // add them objects for mouse interactions (raycaster)
-          if (child.name.includes("_raycaster")) {
-            raycasterObjects.push(child);
-            child.userData.initialScale = new THREE.Vector3().copy(child.scale);
-            child.userData.initialPosition = new THREE.Vector3().copy(child.position);
-            child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
-            child.userData.isAnimating = false;
-          }
-
-          // texture for PC glass
-          if(child.name.includes("glass")){
-            child.material = new THREE.MeshPhysicalMaterial({
-              color: 0xe1e1e1,
-              transmission: 1,
-              opacity: 0.5,
-              metalness: 0,
-              roughness: 0,
-              ior: 1.0,
-              thickness: 0.01,
-              specularIntensity: 1,
-              envMapIntensity: 1,
-              lightMapIntensity: 1,
-              transparent: true,
-              depthWrite: false,
-          });
-          } 
-          // add color to fans
-          if(child.name.includes( "fans" )){
-            child.material = new THREE.MeshBasicMaterial({ 
-              color: 0xffffff,
-            });
-            child.rotation.x = -Math.PI / 2;
-            child.rotation.z = -10 * (Math.PI / 180);
-            child.position.z += 0.1;
-            fans.push(child);
-          }
-          // monitor screen adjustments
-          if(child.name == "monitor"){
-            child.material.color.multiplyScalar(0.5);
-          }
-          // monitor screen adjustments
-          if(child.name == "monitor_screen_raycaster"){
-            child.material.color.multiplyScalar(0.7);
-          }
-          // textures for tesseract
-          if(child.name == "tesseract_inner_raycaster"){
-            child.material = new THREE.MeshPhysicalMaterial({
-              transmission: 0.9,
-              opacity: 0.6,
-              roughness: 0.05,
-              metalness: 0,
-              ior: 1.5,
-              emissive: 0x0c1faff,
-              emissiveIntensity: 1.5,
-              side: THREE.DoubleSide,
-              depthWrite: false
-            });
-            innerOriginalIntensity = child.material.emissiveIntensity;
-            innerTesseract = child;
-            tesseracts.push(child)
-          }
-          if(child.name == "tesseract_outer_raycaster"){
-            child.material = new THREE.MeshPhysicalMaterial({
-              emissive: 0x0c1faff,
-              opacity: 0.3,
-              metalness: 0,
-              roughness: 0.1,
-              transparent: true,
-              depthWrite: false,
-              blendEquation: THREE.AdditiveBlending,
-            });
-            outerTesseract = child;
-          }
-          // textures for holograms
-          if(child.name == "hologram_ball"){
-            child.material = new THREE.MeshPhysicalMaterial({
-              transmission: 0.9,
-              opacity: 0.6,
-              roughness: 0.05,
-              metalness: 0,
-              ior: 1.5,
-              emissive: 0x0c1faff,
-              emissiveIntensity: 0.7,
-              side: THREE.DoubleSide,
-              depthWrite: false
-            });
-          }
-          if(child.name == "hologram_cone"){
-            child.material = new THREE.MeshPhysicalMaterial({
-              transmission: 0.9,
-              opacity: 0.5,
-              roughness: 0.05,
-              metalness: 0,
-              ior: 1.5,
-              emissive: 0x003335,
-              emissiveIntensity: 0.7,
-              side: THREE.DoubleSide,
-              depthWrite: false
-            });
-          }
-          // video texture for hologram screen
-          if(child.name.includes("hologram_screen")){
-            child.material = new THREE.MeshBasicMaterial({
-              opacity: 0.5,
-              transparent: true,
-              depthWrite: false,
-              map: holoVideoTexture,
-              side: THREE.DoubleSide,
-            });
-            child.material.color.setHex(0x00bd99);
-            child.material.color.multiplyScalar(5);
-          }
-        }
-      });
+      if (child.name.includes("_raycaster")) {
+        raycasterObjects.push(child);
+        child.userData.initialScale = child.scale.clone();
+        child.userData.initialPosition = child.position.clone();
+        child.userData.initialRotation = child.rotation.clone();
+        child.userData.isAnimating = false;
+        child.userData.isClicked = false;
+      }
+      break;
     }
   });
   scene.add(glb.scene);
@@ -439,72 +381,36 @@ loader.load("/models/room_test-v1.glb", (glb)=> {
 /* END OF MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
 
 /* SETTING UP SCENE, CAMERA, AND LIGHTING */
-
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, sizes.width / sizes.height, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 1000);
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// Create an Effect Composer
 const composer = new EffectComposer(renderer);
-
-// Create a Render Pass (renders the scene)
 const renderPass = new RenderPass(scene, camera);
 composer.addPass(renderPass);
-
-// unreal bloom pass initialization
-const unrealBloomPass = new UnrealBloomPass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  1.5,
-  0.1,
-  1
-);
+const unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.1, 1);
 composer.addPass(unrealBloomPass);
 
-// initialize cube of scene
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
-// initialize controls and camera
-const controls = new OrbitControls( camera, renderer.domElement );
-
-// limit camera angles
-controls.minPolarAngle = 0
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.minPolarAngle = 0;
 controls.maxPolarAngle = Math.PI / 2;
-controls.minAzimuthAngle = Math.PI / 2.25 ;
+controls.minAzimuthAngle = Math.PI / 2.25;
 controls.maxAzimuthAngle = -Math.PI / 1;
-
-// limit camera zoom
 controls.minDistance = 5;
 controls.maxDistance = 40;
-
-// other initialization factors
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-
 controls.update();
-
-// set starting camera position here
 camera.position.set(12, 16, -12);
 controls.target.set(0, 8, 0);
-
-// Event Listeners (triggers)
-window.addEventListener("resize", ()=>{
-    sizes.width = window.innerWidth;
-    sizes.height = window.innerHeight;
-
-    // Camera updating
-    camera.aspect = sizes.width / sizes.height
-    camera.updateProjectionMatrix()
-
-    // Renderer Updating
-    renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-})
 
 /* END OF SETTING UP SCENE, CAMERA, AND LIGHTING */
 
@@ -627,47 +533,38 @@ function hologramHoverAnimation(object, isHovering) {
 
 // mouse-hovering animation for tesseract
 function tesseractHoverAnimation(object, isHovering) {
-  // gather the two parts: always the one under the pointer,
-  // plus the inner if you hovered the outer
+  if (object.userData.isClicked) return;
+
+  // rest of your existing hover logic…
   const targets = [ object ];
   if (object === outerTesseract && innerTesseract) {
     targets.push(innerTesseract);
   }
 
-  // kill any running tweens on scale or rotation
   targets.forEach(t => {
     gsap.killTweensOf(t.scale);
     gsap.killTweensOf(t.rotation);
   });
 
   if (isHovering) {
+    // scale up + spin once
     targets.forEach(target => {
-      // larger scale for inner, slightly less for outer
-      const factor = 1.2;
-
-      // scale up
       gsap.to(target.scale, {
-        x: target.userData.initialScale.x * factor,
-        y: target.userData.initialScale.y * factor,
-        z: target.userData.initialScale.z * factor,
+        x: target.userData.initialScale.x * 1.2,
+        y: target.userData.initialScale.y * 1.2,
+        z: target.userData.initialScale.z * 1.2,
         duration: 0.3,
         ease: "expo.inOut"
       });
-
-      // spin forever around Y
       gsap.to(target.rotation, {
-        y: target.userData.initialRotation.y + Math.PI * 1,
-        duration: 0.5,
-        ease: "none",
-        onComplete: () => {
-          object.userData.isAnimating = false;
-        }
+        y: target.userData.initialRotation.y + Math.PI * 2,
+        duration: 1,
+        ease: "none"
       });
     });
   } else {
+    // reset to initial
     targets.forEach(target => {
-
-      // scale back down
       gsap.to(target.scale, {
         x: target.userData.initialScale.x,
         y: target.userData.initialScale.y,
@@ -675,82 +572,157 @@ function tesseractHoverAnimation(object, isHovering) {
         duration: 0.3,
         ease: "expo.inOut"
       });
-
-      // stop spin and reset rotation
       gsap.to(target.rotation, {
+        x: target.userData.initialRotation.x,
         y: target.userData.initialRotation.y,
+        z: target.userData.initialRotation.z,
         duration: 0.5,
-        ease: "expo.inOut",
-        onComplete: () => {
-          object.userData.isAnimating = false;
-        }
+        ease: "expo.inOut"
       });
     });
   }
 }
 
+
 // mouse-hovering animation for monitor screen
 function screenHoverAnimation(object, isHovering) {
+  // kill any running glow tweens
   gsap.killTweensOf(object.material.color);
 
   if (isHovering) {
+    // pulse material color toward white and back
     gsap.to(object.material.color, {
-      // Animate the 'r', 'g', and 'b' components to brighten the color
-      r: 1.1,
-      g: 1.1,
-      b: 1.1,
-      duration: 0.5,
+      r: 1, g: 1, b: 1,
+      duration: 0.6,
       yoyo: true,
       repeat: -1,
-      ease: "power1.in",
-      onComplete: () => {
-        object.userData.isAnimating = false;
-      }
+      ease: "sine.inOut"
     });
   } else {
+    // restore original tint
     gsap.to(object.material.color, {
-      r: 0.75,
-      g: 0.75,
-      b: 0.75,
-      duration: 0.2,
-      ease: "power2.out",
-      onComplete: () => {
-        object.userData.isAnimating = false;
-      }
+      r: object.material.color.r * 0.8,
+      g: object.material.color.g * 0.8,
+      b: object.material.color.b * 0.8,
+      duration: 0.3,
+      ease: "none"
     });
   }
 }
 
 // mouse hovering animation for chair
 function chairHoverAnimation(object, isHovering) {
-  gsap.killTweensOf(object.scale);
   gsap.killTweensOf(object.rotation);
-  gsap.killTweensOf(object.position);
-  
-  if(isHovering){
+
+  if (isHovering) {
+    object.userData.isAnimating = true;
+    object.userData.isClicked   = true;
+
     gsap.to(object.rotation, {
-      y: object.userData.initialRotation.y * 1.2 + Math.PI / 6,
-      duration: 1.5,
-      ease: "power1.inOut",
-      yoyo: true,
-      repeat: -1,
+      y: object.userData.initialRotation.y * 1 + Math.PI / 8,
+      duration: 0.4,
+      ease: "power2.inOut",
       onComplete: () => {
-        object.userData.isAnimating = false;
+        gsap.to(object.rotation, {
+          y: object.userData.initialRotation.y,
+          duration: 0.4,
+          ease: "power2.inOut",
+          onComplete: () => {
+            object.userData.isAnimating = false;
+            object.userData.isClicked   = false;
+          }
+        });
       }
-    })
+    });
   } else {
+    // reset on hover‐out
     gsap.to(object.rotation, {
+      x: object.userData.initialRotation.x,
       y: object.userData.initialRotation.y,
-      duration: 0.5,
+      z: object.userData.initialRotation.z,
+      duration: 0.3,
       ease: "power1.out",
       onComplete: () => {
         object.userData.isAnimating = false;
       }
-    })
+    });
   }
 }
 
 /* END OF MOUSE HOVERING ANIMATIONS */
+
+/* START OF MOUSE CLICK ANIMATIONS */
+
+// animation for chair click
+function chairClickAnimation(object) {
+  gsap.killTweensOf(object.rotation);
+
+  gsap.to(object.rotation, {
+    y: object.userData.initialRotation.y * 1.2 + Math.PI / 6,
+    duration: 1.5,
+    ease: "power1.inOut",
+    yoyo: true,
+    repeat: -1,
+    onComplete: () => {
+      object.userData.isAnimating = false;
+    }
+  });
+}
+
+
+// animation for tesseract click
+function tesseractClickAnimation(object) {
+  const targets = [ object ];
+  if (object === outerTesseract && innerTesseract) {
+    targets.push(innerTesseract);
+  }
+
+  targets.forEach(t => {
+    gsap.killTweensOf(t.rotation);
+    gsap.killTweensOf(t.scale);
+  });
+
+  if (object.userData.isClicked) {
+    targets.forEach(target => {
+      gsap.to(target.scale, {
+        x: target.userData.initialScale.x * 1.2,
+        y: target.userData.initialScale.y * 1.2,
+        z: target.userData.initialScale.z * 1.2,
+        duration: 0.3,
+        ease: "expo.inOut"
+      });
+      gsap.to(target.rotation, {
+        y: "+= 5",
+        duration: 2,
+        ease: "none",
+        repeat: -1
+      });
+    });
+  } else {
+    targets.forEach(target => {
+      gsap.to(target.scale, {
+        x: target.userData.initialScale.x,
+        y: target.userData.initialScale.y,
+        z: target.userData.initialScale.z,
+        duration: 0.3,
+        ease: "expo.inOut"
+      });
+      gsap.to(target.rotation, {
+        x: target.userData.initialRotation.x,
+        y: target.userData.initialRotation.y,
+        z: target.userData.initialRotation.z,
+        duration: 0.5,
+        ease: "expo.inOut"
+      });
+    });
+  }
+}
+
+
+function holoscreenClickAnimation(object) {
+}
+
+/* END OF MOUSE CLICK ANIMATIONS */
 
 /* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
 let time = 0;
@@ -760,22 +732,15 @@ const render = () => {
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
 
-  // Rotate the fans
-  fans.forEach(fan => {
-     fan.rotation.y += 0.05;
-  });
+  fans.forEach(fan => fan.rotation.y += 0.05);
 
-  // fluctuate tesseract brightness
   time += 0.008;
-  tesseracts.forEach(tess => {
-    const intensityFactor = Math.sin(time * 2) * 0.5 + 1;
-    tess.material.emissiveIntensity = innerOriginalIntensity * intensityFactor;
-  })
+  tesseracts.forEach(tess => tess.material.emissiveIntensity = innerOriginalIntensity * (Math.sin(time * 2) * 0.5 + 1));
 
-  // raycaster (mouse interactions)
-  raycaster.setFromCamera( pointer, camera );
-	currentIntersects = raycaster.intersectObjects(raycasterObjects);
+  raycaster.setFromCamera(pointer, camera);
+  currentIntersects = raycaster.intersectObjects(raycasterObjects);
 
+  // Animation logic for raycaster objects
   if (currentIntersects.length > 0){
     const currentIntersectObject = currentIntersects[0].object;
 
@@ -832,14 +797,24 @@ const render = () => {
       }
 
       // Animation for chair
-      if (currentIntersectObject.name.includes("chair")) {
+      if (
+        currentIntersectObject.name.includes("chair") &&
+        !currentIntersectObject.userData.isClicked &&
+        !currentIntersectObject.userData.isAnimating
+      ) {
         if (currentIntersectObject !== currentHoveredChair) {
-          if (currentHoveredChair)
+          if (
+            currentHoveredChair &&
+            !currentHoveredChair.userData.isClicked
+          ) {
             chairHoverAnimation(currentHoveredChair, false);
+          }
           chairHoverAnimation(currentIntersectObject, true);
           currentHoveredChair = currentIntersectObject;
         }
       }
+
+      
 
       document.body.style.cursor = "pointer"
     } else {
@@ -876,7 +851,7 @@ const render = () => {
     }
 
     // Animations for chair
-    if (currentHoveredChair) {
+    if (currentHoveredChair && !currentHoveredChair.userData.isClicked) {
       chairHoverAnimation(currentHoveredChair, false);
       currentHoveredChair = null;
     }
