@@ -1453,6 +1453,7 @@ hr.invis1 {
 
 .gallery-single{
 	margin: 30px 15px;
+    height: 570px; /* force height */
 }
 
 .gallery-single {
@@ -1463,6 +1464,10 @@ hr.invis1 {
 }
 
 .gallery-list .img-overlay {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
     position: absolute;
     top: 10px;
     left: 10px;
