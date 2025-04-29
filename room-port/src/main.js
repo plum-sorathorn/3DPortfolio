@@ -140,9 +140,6 @@ const fans = [];
 const tesseracts = [];
 let innerOriginalIntensity = null;
 
-// create const for monitor animations
-const monitor = [];
-
 /* END OF VARIABLE DECLARTIONS */
 
 // mapping to texture files
