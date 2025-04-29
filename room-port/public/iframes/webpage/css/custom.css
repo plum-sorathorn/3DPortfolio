@@ -80,10 +80,17 @@ transform: scale(1.05);
 /* styles for project texts */
 .project-header {
     padding: 15px 15px 15px 15px;
+    min-height: 70px;
+}
+
+.project-subheader {
+    padding: 5px 15px 5px 15px;
 }
 
 .project-desc {
     padding: 15px 15px 15px 15px;
+    min-height: 140px;
+    max-height: 140px;
 }
 
 .project-images{

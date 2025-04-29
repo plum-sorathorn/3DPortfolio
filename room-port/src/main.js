@@ -610,8 +610,8 @@ function tesseractHoverAnimation(object, isHovering) {
         ease: "expo.inOut"
       });
       gsap.to(target.rotation, {
-        y: target.userData.initialRotation.y + Math.PI * 2,
-        duration: 1,
+        y: target.userData.initialRotation.y + Math.PI,
+        duration: 0.5,
         ease: "none"
       });
     });
@@ -644,13 +644,13 @@ function chairHoverAnimation(object, isHovering) {
     object.userData.isAnimating = true;
 
     gsap.to(object.rotation, {
-      y: object.userData.initialRotation.y * 1 + Math.PI / 8,
-      duration: 0.4,
+      y: object.userData.initialRotation.y * 1 + Math.PI / 16,
+      duration: 0.2,
       ease: "power2.inOut",
       onComplete: () => {
         gsap.to(object.rotation, {
           y: object.userData.initialRotation.y,
-          duration: 0.4,
+          duration: 0.2,
           ease: "power2.inOut",
           onComplete: () => {
             object.userData.isAnimating = false;
@@ -742,9 +742,52 @@ function tesseractClickAnimation(object) {
   }
 }
 
-
+// animation for holoscreen click
 function holoscreenClickAnimation(object) {
+  // Create simple particle burst effect
+  const particleCount = 50;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+
+  for (let i = 0; i < particleCount * 3; i++) {
+    positions[i] = (Math.random() - 0.5) * 0.5;
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const material = new THREE.PointsMaterial({
+    color: 0x00ffff,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.8,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  const particles = new THREE.Points(geometry, material);
+  particles.position.copy(object.position);
+  scene.add(particles);
+
+  gsap.to(particles.scale, {
+    x: 10,
+    y: 10,
+    z: 10,
+    duration: 1,
+    ease: "power2.out"
+  });
+
+  gsap.to(material, {
+    opacity: 0,
+    duration: 1,
+    ease: "power2.out",
+    onComplete: () => {
+      scene.remove(particles);
+      geometry.dispose();
+      material.dispose();
+    }
+  });
 }
+
 
 /* END OF MOUSE CLICK ANIMATIONS */
 

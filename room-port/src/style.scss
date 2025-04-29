@@ -73,7 +73,7 @@ html, body {
   }
 
   @media (min-width: 768px) {
-    // for non-screens, scale up.
+    // for PCs, scale up.
     .iframe-container {
       scale: (4);
     }
@@ -84,11 +84,11 @@ html, body {
     position: absolute;
     background-color: transparent;
     right: 1px;
-    top: -4px;
+    top: 0;
     border: none;
     width: 45px;
     height: 20px;
-    font-size: 12px;
+    font-size: 6px;
     font-weight: bold;
     color: #000;
     cursor: pointer;

@@ -544,6 +544,7 @@ xclip
     display: block;
     position: relative;
     margin-bottom: 60px;
+
 }
 
 .section-title p {
@@ -1451,7 +1452,7 @@ hr.invis1 {
 
 
 .gallery-single{
-	margin: 30px 15px;;
+	margin: 30px 15px;
 }
 
 .gallery-single {
@@ -1504,13 +1505,13 @@ hr.invis1 {
 	position: relative;
     display: flex;
     justify-content: center;
-    padding: 30px 10px 30px 10px;
+    padding: 40px 0px 40px 0px;
     height: 200px;
 }
 
 .post-box{
-	-webkit-box-shadow: 0px 5px 35px 0px rgba(148, 146, 245, 0.15);
-	box-shadow: 0px 5px 35px 0px rgba(148, 146, 245, 0.15);
+	-webkit-box-shadow: 0px 5px 30px 0px rgba(109, 109, 109, 0.35);
+	box-shadow: 0px 5px 30px 0px rgba(109, 109, 109, 0.35);
 	background: #ffffff;
 }
 
