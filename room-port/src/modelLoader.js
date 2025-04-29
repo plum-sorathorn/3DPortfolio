@@ -3,12 +3,12 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { store } from './store.js';
 import { startMonitorPulse } from './animations.js';
-import { startIntroAnimation } from './introAnimations.js';
+import gsap from 'gsap';
 
 // to load 3D model
 store.dracoLoader = new DRACOLoader();
 store.dracoLoader.setDecoderPath('/draco/');
-store.loader = new GLTFLoader();
+store.loader = new GLTFLoader(store.manager);
 store.loader.setDRACOLoader(store.dracoLoader);
 
 /* MAIN FUNCTION TO LOAD MODEL AND ADJUST TEXTURES */
@@ -22,13 +22,26 @@ export function loadRoomModel() {
         if (child.name === "shelf") {
           store.shelf = child;
           child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "monitor") {
           store.monitor = child;
           child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "monitor_screen_raycaster") {
           store.monitor_screen = child;
+
+          // create clone to blacken monitor
+          const bgPlane = child.clone();
+          bgPlane.material = new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            side: THREE.DoubleSide
+          });
+
+          gsap.to(bgPlane.position, {
+            z: bgPlane.position.z + 0.1,
+            x: bgPlane.position.x - 0.1,
+          });
+
+          child.parent.add(bgPlane);
+
           child.userData.originalScale = child.scale.clone();
           child.scale.set(0, 0, 0);
         } else if (child.name === "keyboard") {
@@ -37,6 +50,25 @@ export function loadRoomModel() {
           child.scale.set(0, 0, 0);
         } else if (child.name === "frames") {
           store.frames = child;
+          child.userData.originalScale = child.scale.clone();
+        } else if (child.name === "pc") {
+          store.pc = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "pc_glass") {
+          store.pc_glass = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "fans1") {
+          store.fans1 = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "fans2") {
+          store.fans2 = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "fans3") {
+          store.fans3 = child;
           child.userData.originalScale = child.scale.clone();
           child.scale.set(0, 0, 0);
         } else if (child.name === "frame1_screen_raycaster") {
@@ -189,7 +221,6 @@ export function loadRoomModel() {
       });
 
       store.scene.add(glb.scene);
-      startIntroAnimation();
 
       // start flashing animation for monitor screen
       if (store.monitorScreenObject) {

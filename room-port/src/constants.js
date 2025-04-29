@@ -24,7 +24,7 @@ store.sizes = {
 // variables objects designated for initial animation
 let wall, shelf, monitor, monitor_screen, keyboard, frame1_screen, frame2_screen, frame3_screen,
  chair_top, chair_bottom, github_raycaster, linkedin_raycaster, hologram_screen, hologram_cone, 
- tesseract_inner_raycaster, tesseract_outer_raycaster;
+ tesseract_inner_raycaster, tesseract_outer_raycaster, pc, pc_glass, fans1, fans2, fans3;
 
 // Assign variables to `store`
 Object.assign(store, {
@@ -45,6 +45,11 @@ Object.assign(store, {
   hologram_cone,
   tesseract_inner_raycaster,
   tesseract_outer_raycaster,
+  pc,
+  pc_glass,
+  fans1,
+  fans2,
+  fans3,
 });
 
 /* MAPPING TO TEXTURE FILES */

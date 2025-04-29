@@ -5,32 +5,48 @@ import gsap from 'gsap';
 export function startIntroAnimation() {
 
     // intro animation for shelf objects
-    const timelineShelf = gsap.timeline({
+    const timelineRight = gsap.timeline({
         duration: 0.8,
         ease: "back.out(1.8)",
     });
 
-    timelineShelf.to(store.shelf.scale, { 
-        x: store.shelf.userData.originalScale.x,
-        y: store.shelf.userData.originalScale.y,
-        z: store.shelf.userData.originalScale.z,
-    }).to(store.github_raycaster.scale, {
-        x: store.github_raycaster.userData.originalScale.x,
-        y: store.github_raycaster.userData.originalScale.y,
-        z: store.github_raycaster.userData.originalScale.z,
-    }).to(store.linkedin_raycaster.scale, {
+    timelineRight.to(store.tesseract_inner_raycaster.scale, {
+        x: store.tesseract_inner_raycaster.userData.originalScale.x,
+        y: store.tesseract_inner_raycaster.userData.originalScale.y,
+        z: store.tesseract_inner_raycaster.userData.originalScale.z,
+    },).to(store.tesseract_outer_raycaster.scale, {
+        x: store.tesseract_outer_raycaster.userData.originalScale.x,
+        y: store.tesseract_outer_raycaster.userData.originalScale.y,
+        z: store.tesseract_outer_raycaster.userData.originalScale.z,
+    },).to(store.frame3_screen.scale, {
+        x: store.frame3_screen.userData.originalScale.x,
+        y: store.frame3_screen.userData.originalScale.y,
+        z: store.frame3_screen.userData.originalScale.z,
+    },"-=0.2").to(store.frame2_screen.scale, {
+        x: store.frame2_screen.userData.originalScale.x,
+        y: store.frame2_screen.userData.originalScale.y,
+        z: store.frame2_screen.userData.originalScale.z,
+    },"-=0.2").to(store.frame1_screen.scale, {
+        x: store.frame1_screen.userData.originalScale.x,
+        y: store.frame1_screen.userData.originalScale.y,
+        z: store.frame1_screen.userData.originalScale.z,
+    },"-=0.2").to(store.linkedin_raycaster.scale, {
         x: store.linkedin_raycaster.userData.originalScale.x,
         y: store.linkedin_raycaster.userData.originalScale.y,
         z: store.linkedin_raycaster.userData.originalScale.z,
-    });
+    },"-=0.2").to(store.github_raycaster.scale, {
+        x: store.github_raycaster.userData.originalScale.x,
+        y: store.github_raycaster.userData.originalScale.y,
+        z: store.github_raycaster.userData.originalScale.z,
+    },"-=0.2");
 
     // intro animation for hologram objects
-    const timelineHolo = gsap.timeline({
-        duration: 0.8,
+    const timelineLeft = gsap.timeline({
+        duration: 1,
         ease: "back.out(1.8)",
     });
 
-    timelineHolo.to(store.hologram_cone.scale, {
+    timelineLeft.to(store.hologram_cone.scale, {
         x: store.hologram_cone.userData.originalScale.x,
         y: store.hologram_cone.userData.originalScale.y,
         z: store.hologram_cone.userData.originalScale.z,
@@ -38,51 +54,31 @@ export function startIntroAnimation() {
         x: store.hologram_screen.userData.originalScale.x,
         y: store.hologram_screen.userData.originalScale.y,
         z: store.hologram_screen.userData.originalScale.z,
-    }, "<");
-
-    // intro animation for tesseract
-    const timelineTesseract = gsap.timeline({
-        duration: 0.8,
-        ease: "back.out(1.8)",
-    });
-
-    timelineTesseract.to(store.tesseract_inner_raycaster.scale, {
-        x: store.tesseract_inner_raycaster.userData.originalScale.x,
-        y: store.tesseract_inner_raycaster.userData.originalScale.y,
-        z: store.tesseract_inner_raycaster.userData.originalScale.z,
-    }).to(store.tesseract_outer_raycaster.scale, {
-        x: store.tesseract_outer_raycaster.userData.originalScale.x,
-        y: store.tesseract_outer_raycaster.userData.originalScale.y,
-        z: store.tesseract_outer_raycaster.userData.originalScale.z,
-    },);
-
-    // intro animation for framed objects
-    const timelineFrames = gsap.timeline({
-        duration: 0.8,
-        ease: "back.out(1.8)",
-    });
-
-    timelineFrames.to(store.frames.scale, {
-        x: store.frames.userData.originalScale.x,
-        y: store.frames.userData.originalScale.y,
-        z: store.frames.userData.originalScale.z,
-    }).to(store.frame1_screen.scale, {
-        x: store.frame1_screen.userData.originalScale.x,
-        y: store.frame1_screen.userData.originalScale.y,
-        z: store.frame1_screen.userData.originalScale.z,
-    }).to(store.frame2_screen.scale, {
-        x: store.frame2_screen.userData.originalScale.x,
-        y: store.frame2_screen.userData.originalScale.y,
-        z: store.frame2_screen.userData.originalScale.z,
-    }).to(store.frame3_screen.scale, {
-        x: store.frame3_screen.userData.originalScale.x,
-        y: store.frame3_screen.userData.originalScale.y,
-        z: store.frame3_screen.userData.originalScale.z,
-    });
+    }).to(store.pc.scale, {
+        x: store.pc.userData.originalScale.x,
+        y: store.pc.userData.originalScale.y,
+        z: store.pc.userData.originalScale.z,
+    }, "<").to(store.pc_glass.scale, {
+        x: store.pc_glass.userData.originalScale.x,
+        y: store.pc_glass.userData.originalScale.y,
+        z: store.pc_glass.userData.originalScale.z,
+    }).to(store.fans1.scale, {
+        x: store.fans1.userData.originalScale.x,
+        y: store.fans1.userData.originalScale.y,
+        z: store.fans1.userData.originalScale.z,
+    },"-=0.2").to(store.fans2.scale, {
+        x: store.fans2.userData.originalScale.x,
+        y: store.fans2.userData.originalScale.y,
+        z: store.fans2.userData.originalScale.z,
+    },"-=0.2").to(store.fans3.scale, {
+        x: store.fans3.userData.originalScale.x,
+        y: store.fans3.userData.originalScale.y,
+        z: store.fans3.userData.originalScale.z,
+    },"-=0.2");
 
     // intro animation for chair, monitor, and keyboard (center objects)
     const timelineCenter = gsap.timeline({
-        duration: 1.2,
+        duration: 1.7,
         ease: "back.out(1.8)",
     });
 
@@ -98,14 +94,10 @@ export function startIntroAnimation() {
         x: store.keyboard.userData.originalScale.x,
         y: store.keyboard.userData.originalScale.y,
         z: store.keyboard.userData.originalScale.z,
-    }).to(store.monitor.scale, {
-        x: store.monitor.userData.originalScale.x,
-        y: store.monitor.userData.originalScale.y,
-        z: store.monitor.userData.originalScale.z,
     }).to(store.monitor_screen.scale, {
         x: store.monitor_screen.userData.originalScale.x,
         y: store.monitor_screen.userData.originalScale.y,
         z: store.monitor_screen.userData.originalScale.z,
-    });
+    },"+=0.4");
 
 }

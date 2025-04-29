@@ -1,5 +1,7 @@
+import * as THREE from 'three';
 import gsap from 'gsap';
 import { store } from './store.js';
+import { startIntroAnimation } from './introAnimations.js';
 
 // Cache DOM elements
 store.modalExitButtons = document.querySelectorAll(".modal-exit-button");
@@ -8,6 +10,54 @@ store.iframeModal = document.querySelector(".iframe-modal");
 store.iframeViewer = document.getElementById("iframe-viewer");
 store.monitorModal = document.querySelector(".monitor-modal");
 store.monitorIframe = document.getElementById("monitor-iframe");
+
+// loading screen elements
+store.manager = new THREE.LoadingManager();
+store.loadingScreen = document.querySelector('.loading-screen');
+store.loadingScreenButton = document.querySelector('.loading-screen-button');
+
+store.manager.onLoad = function () {
+  const { loadingScreen, loadingScreenButton } = store;
+
+  // Style the button to indicate it's ready
+  loadingScreenButton.textContent = "Enter";
+  loadingScreenButton.style.border = "2px solid #00ffcc";
+  loadingScreenButton.style.cursor = "pointer";
+
+  let isDisabled = false;
+
+  function handleEnter() {
+    if (isDisabled) return;
+    isDisabled = true;
+
+    // Update button style for interaction
+    loadingScreenButton.style.border = "2px solid #ffffff";
+
+    // Animate away loading screen
+    playReveal();
+  }
+
+  function playReveal() {
+    gsap.to(loadingScreen, {
+      opacity: 0,
+      duration: 0.6,
+      ease: "power2.inOut",
+      onComplete: () => {
+        startIntroAnimation();
+      }
+    });
+  }
+
+  // Event listeners
+  loadingScreenButton.addEventListener("click", handleEnter);
+  loadingScreenButton.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    handleEnter();
+  }, { passive: false });
+  loadingScreenButton.addEventListener("mouseenter", () => {
+    loadingScreenButton.style.borderColor = "#ffffff";
+  });
+};
 
 store.touchHappened = false;
 
