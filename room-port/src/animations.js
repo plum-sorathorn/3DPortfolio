@@ -35,9 +35,9 @@ export function contactsHoverAnimation(object, isHovering){
   
   if(isHovering){
     gsap.to(object.scale, {
-      x: object.userData.initialScale.x * 1.2,
-      y: object.userData.initialScale.y * 1.2,
-      z: object.userData.initialScale.z * 1.2,
+      x: object.userData.originalScale.x * 1.2,
+      y: object.userData.originalScale.y * 1.2,
+      z: object.userData.originalScale.z * 1.2,
       duration: 0.5,
       ease: "bounce.out(1.8)",
     });
@@ -49,9 +49,9 @@ export function contactsHoverAnimation(object, isHovering){
     });
   } else {
     gsap.to(object.scale, {
-      x: object.userData.initialScale.x,
-      y: object.userData.initialScale.y,
-      z: object.userData.initialScale.z,
+      x: object.userData.originalScale.x,
+      y: object.userData.originalScale.y,
+      z: object.userData.originalScale.z,
       duration: 0.3,
       ease: "bounce.out(1.8)",
     });
@@ -71,9 +71,9 @@ export function framesHoverAnimation(object, isHovering) {
 
   if (isHovering) {
     gsap.to(object.scale, {
-      x: object.userData.initialScale.x * 1.3,
-      y: object.userData.initialScale.y * 1.3,
-      z: object.userData.initialScale.z * 1.3,
+      x: object.userData.originalScale.x * 1.3,
+      y: object.userData.originalScale.y * 1.3,
+      z: object.userData.originalScale.z * 1.3,
       duration: 0.3,
       ease: "expo.inOut(1.8)",
     });
@@ -86,9 +86,9 @@ export function framesHoverAnimation(object, isHovering) {
     });
   } else {
     gsap.to(object.scale, {
-      x: object.userData.initialScale.x,
-      y: object.userData.initialScale.y,
-      z: object.userData.initialScale.z,
+      x: object.userData.originalScale.x,
+      y: object.userData.originalScale.y,
+      z: object.userData.originalScale.z,
       duration: 0.3,
       ease: "expo.inOut",
     });
@@ -142,9 +142,9 @@ export function tesseractHoverAnimation(object, isHovering) {
     // scale up + spin once
     targets.forEach(target => {
       gsap.to(target.scale, {
-        x: target.userData.initialScale.x * 1.2,
-        y: target.userData.initialScale.y * 1.2,
-        z: target.userData.initialScale.z * 1.2,
+        x: target.userData.originalScale.x * 1.2,
+        y: target.userData.originalScale.y * 1.2,
+        z: target.userData.originalScale.z * 1.2,
         duration: 0.3,
         ease: "expo.inOut",
       });
@@ -158,9 +158,9 @@ export function tesseractHoverAnimation(object, isHovering) {
     // reset to initial
     targets.forEach(target => {
       gsap.to(target.scale, {
-        x: target.userData.initialScale.x,
-        y: target.userData.initialScale.y,
-        z: target.userData.initialScale.z,
+        x: target.userData.originalScale.x,
+        y: target.userData.originalScale.y,
+        z: target.userData.originalScale.z,
         duration: 0.3,
         ease: "expo.inOut",
       });
@@ -237,9 +237,9 @@ export function tesseractClickAnimation(object) {
   if (object.userData.isClicked) {
     targets.forEach(target => {
       gsap.to(target.scale, {
-        x: target.userData.initialScale.x * 1.2,
-        y: target.userData.initialScale.y * 1.2,
-        z: target.userData.initialScale.z * 1.2,
+        x: target.userData.originalScale.x * 1.2,
+        y: target.userData.originalScale.y * 1.2,
+        z: target.userData.originalScale.z * 1.2,
         duration: 0.3,
         ease: "expo.inOut",
       });
@@ -253,9 +253,9 @@ export function tesseractClickAnimation(object) {
   } else {
     targets.forEach(target => {
       gsap.to(target.scale, {
-        x: target.userData.initialScale.x,
-        y: target.userData.initialScale.y,
-        z: target.userData.initialScale.z,
+        x: target.userData.originalScale.x,
+        y: target.userData.originalScale.y,
+        z: target.userData.originalScale.z,
         duration: 0.3,
         ease: "expo.inOut",
       });

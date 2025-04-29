@@ -3,6 +3,7 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { store } from './store.js';
 import { startMonitorPulse } from './animations.js';
+import { startIntroAnimation } from './introAnimations.js';
 
 // to load 3D model
 store.dracoLoader = new DRACOLoader();
@@ -16,6 +17,75 @@ export function loadRoomModel() {
     store.loader.load("/models/room_test-v1.glb", glb => {
       glb.scene.traverse(child => {
         if (!child.isMesh) return;
+
+        /* START OF INTRO ANIMATION SETTINGS */
+        if (child.name === "shelf") {
+          store.shelf = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "monitor") {
+          store.monitor = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "monitor_screen_raycaster") {
+          store.monitor_screen = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "keyboard") {
+          store.keyboard = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "frames") {
+          store.frames = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "frame1_screen_raycaster") {
+          store.frame1_screen = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "frame2_screen_raycaster") {
+          store.frame2_screen = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "frame3_screen_raycaster") {
+          store.frame3_screen = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "chair_top_raycaster") {
+          store.chair_top = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "hologram_screen_raycaster") {
+          store.hologram_screen = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "hologram_cone") {
+          store.hologram_cone = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "chair_bottom") {
+          store.chair_bottom = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "github_raycaster") {
+          store.github_raycaster = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "linkedin_raycaster") {
+          store.linkedin_raycaster = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "tesseract_inner_raycaster") {
+          store.tesseract_inner_raycaster = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        } else if (child.name === "tesseract_outer_raycaster") {
+          store.tesseract_outer_raycaster = child;
+          child.userData.originalScale = child.scale.clone();
+          child.scale.set(0, 0, 0);
+        }
+
+        /* END OF INTRO ANIMATION SETTINGS */
 
         /* START OF INITIALIZING TEXTURES */
         for (const key of store.textureKeys) {
@@ -119,10 +189,12 @@ export function loadRoomModel() {
       });
 
       store.scene.add(glb.scene);
+      startIntroAnimation();
 
       // start flashing animation for monitor screen
-      if (store.monitorScreenObject) 
+      if (store.monitorScreenObject) {
         startMonitorPulse(store.monitorScreenObject);
+      }
       resolve();
     });
   });

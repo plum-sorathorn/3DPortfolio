@@ -15,11 +15,37 @@ store.contacts = {
   linkedin_raycaster: "https://www.linkedin.com/in/sorathorn-thongpitukthavorn/",
 };
 
-// Canvas / renderer sizes (updated by the resize handler in scene.js)
+// Canvas, renderer sizes (updated by the resize handler in scene.js)
 store.sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
+
+// variables objects designated for initial animation
+let wall, shelf, monitor, monitor_screen, keyboard, frame1_screen, frame2_screen, frame3_screen,
+ chair_top, chair_bottom, github_raycaster, linkedin_raycaster, hologram_screen, hologram_cone, 
+ tesseract_inner_raycaster, tesseract_outer_raycaster;
+
+// Assign variables to `store`
+Object.assign(store, {
+  wall,
+  shelf,
+  monitor,
+  monitor_screen,
+  keyboard,
+  frames,
+  frame1_screen,
+  frame2_screen,
+  frame3_screen,
+  chair_top,
+  chair_bottom,
+  github_raycaster,
+  linkedin_raycaster,
+  hologram_screen,
+  hologram_cone,
+  tesseract_inner_raycaster,
+  tesseract_outer_raycaster,
+});
 
 /* MAPPING TO TEXTURE FILES */
 store.textureMap = {
