@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import { store } from './store.js';
 import { startIntroAnimation } from './introAnimations.js';
+import { playMusic } from './backgroundMusic.js';
 
 // Cache DOM elements
 store.modalExitButtons = document.querySelectorAll(".modal-exit-button");
@@ -44,6 +45,7 @@ store.manager.onLoad = function () {
 
     // Animate away loading screen
     playReveal();
+    playMusic();
   }
 
   function playReveal() {
