@@ -39,7 +39,7 @@ if (window.innerWidth < 768) {
   store.controls.target.set(0, 10, 0);   // Adjust target accordingly
 } else {
   // Default position for larger screens
-  store.camera.position.set(10, 15, -10);
+  store.camera.position.set(12, 15, -12);
   store.controls.target.set(0, 10, 0);
 }
 
