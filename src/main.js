@@ -12,6 +12,8 @@ import { loadRoomModel }   from './modelLoader.js';
 import './interactions.js';
 import { startRenderLoop } from './render.js';
 
-// The GLTF room is large, so await its load before kicking off the loop
-await loadRoomModel();
-startRenderLoop();
+// change to async so it can be deployed
+(async () => {
+    await loadRoomModel();
+    startRenderLoop();
+})();
