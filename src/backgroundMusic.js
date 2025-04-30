@@ -3,7 +3,7 @@ import { Howl } from 'howler';
 // Create a Howl instance for background music
 const backgroundMusic = new Howl({
     src: ['/music/nightstroll.mp3'],
-    volume: 0.6,
+    volume: 0.4,
     loop: true,  // Enable looping for background music
     preload: true,
   });
