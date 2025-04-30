@@ -20,9 +20,13 @@ store.manager.onLoad = function () {
   const { loadingScreen, loadingScreenButton } = store;
 
   // Style the button to indicate it's ready
+  loadingScreen.style.opacity = "0.90";  
+  loadingScreen.style.transition = "opacity 0.7s ease-in-out";
   loadingScreenButton.textContent = "Enter";
   loadingScreenButton.style.border = "2px solid #00ffcc";
   loadingScreenButton.style.cursor = "pointer";
+  loadingScreenButton.style.opacity = "0.90";  
+  loadingScreenButton.style.transition = "all 0.7s ease-in-out";
 
   let isDisabled = false;
 
@@ -40,7 +44,7 @@ store.manager.onLoad = function () {
   function playReveal() {
     gsap.to(loadingScreen, {
       opacity: 0,
-      duration: 0.6,
+      duration: 0.9,
       ease: "power2.inOut",
       onComplete: () => {
         startIntroAnimation();
@@ -50,7 +54,7 @@ store.manager.onLoad = function () {
 
   // Event listeners
   loadingScreenButton.addEventListener("click", handleEnter);
-  loadingScreenButton.addEventListener("touchend", (e) => {
+  loadingScreenButton.addEventListener("touchend", e => {
     e.preventDefault();
     handleEnter();
   }, { passive: false });
@@ -87,7 +91,7 @@ store.modalExitButtons.forEach(button => {
 
   // Desktop
   button.addEventListener("click", event => {
-    if (store.touchHappened) return; // ignore ghost click after touch
+    if (store.touchHappened) return;
     const modal = event.target.closest(".modal");
     store.hideModal(modal);
   });

@@ -42,7 +42,7 @@ export function startIntroAnimation() {
 
     // intro animation for hologram objects
     const timelineLeft = gsap.timeline({
-        duration: 1,
+        duration: 1.2,
         ease: "back.out(1.8)",
     });
 
@@ -54,14 +54,6 @@ export function startIntroAnimation() {
         x: store.hologram_screen.userData.originalScale.x,
         y: store.hologram_screen.userData.originalScale.y,
         z: store.hologram_screen.userData.originalScale.z,
-    }).to(store.pc.scale, {
-        x: store.pc.userData.originalScale.x,
-        y: store.pc.userData.originalScale.y,
-        z: store.pc.userData.originalScale.z,
-    }, "<").to(store.pc_glass.scale, {
-        x: store.pc_glass.userData.originalScale.x,
-        y: store.pc_glass.userData.originalScale.y,
-        z: store.pc_glass.userData.originalScale.z,
     }).to(store.fans1.scale, {
         x: store.fans1.userData.originalScale.x,
         y: store.fans1.userData.originalScale.y,

@@ -54,11 +54,9 @@ export function loadRoomModel() {
         } else if (child.name === "pc") {
           store.pc = child;
           child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "pc_glass") {
           store.pc_glass = child;
           child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "fans1") {
           store.fans1 = child;
           child.userData.originalScale = child.scale.clone();
