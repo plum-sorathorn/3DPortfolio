@@ -23,10 +23,14 @@ store.manager.onLoad = function () {
   loadingScreen.style.opacity = "0.90";  
   loadingScreen.style.transition = "opacity 0.7s ease-in-out";
   loadingScreenButton.textContent = "Enter";
-  loadingScreenButton.style.border = "2px solid #00ffcc";
   loadingScreenButton.style.cursor = "pointer";
-  loadingScreenButton.style.opacity = "0.90";  
-  loadingScreenButton.style.transition = "all 0.7s ease-in-out";
+
+  gsap.from(loadingScreenButton, {
+    duration: 0.5,
+    scale: 5,
+    opacity: 0,
+    ease: "back.in"
+  });
 
   let isDisabled = false;
 
@@ -36,20 +40,27 @@ store.manager.onLoad = function () {
 
     // Update button style for interaction
     loadingScreenButton.style.border = "2px solid #ffffff";
+    loadingScreenButton.style.color = "#ffffff";
 
     // Animate away loading screen
     playReveal();
   }
 
   function playReveal() {
-    gsap.to(loadingScreen, {
+    const timeline = gsap.timeline()
+
+    timeline.to(loadingScreen, {
       opacity: 0,
       duration: 0.9,
       ease: "power2.inOut",
       onComplete: () => {
         startIntroAnimation();
       }
-    });
+    }).to(loadingScreen, {
+      onComplete: () => {
+        loadingScreen.remove()
+      }
+    }, "+=1");
   }
 
   // Event listeners
@@ -58,9 +69,6 @@ store.manager.onLoad = function () {
     e.preventDefault();
     handleEnter();
   }, { passive: false });
-  loadingScreenButton.addEventListener("mouseenter", () => {
-    loadingScreenButton.style.borderColor = "#ffffff";
-  });
 };
 
 store.touchHappened = false;

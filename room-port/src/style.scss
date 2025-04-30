@@ -162,26 +162,25 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(24, 24, 24);
-  opacity: 1;
+  background: rgb(36, 36, 36);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 
   .loading-screen-button {
+    font-weight: bold;
     padding: 1rem 2rem;
     font-size: 1.25rem;
     color: #00ba95;
-    background: transparent;
     border: 2px solid #00ba95;
     border-radius: 8px;
     cursor: default;
     font-family: 'Courier New', Courier, monospace;
     letter-spacing: 1px;
-    opacity: 0.5;
+    opacity: 1;
     transition: all 0.3s ease;
-    
+
     &:hover {
       border-color: #ffffff;
       color: #ffffff;

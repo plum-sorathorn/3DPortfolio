@@ -183,13 +183,13 @@ export function chairHoverAnimation(object, isHovering) {
     object.userData.isAnimating = true;
 
     gsap.to(object.rotation, {
-      y: object.userData.initialRotation.y + Math.PI / 16,
-      duration: 0.2,
+      y: object.userData.initialRotation.y - Math.PI / 16,
+      duration: 0.6,
       ease: "power2.inOut",
       onComplete: () => {
         gsap.to(object.rotation, {
           y: object.userData.initialRotation.y,
-          duration: 0.2,
+          duration: 0.6,
           ease: "power2.inOut",
           onComplete: () => { object.userData.isAnimating = false; }
         });
@@ -201,7 +201,7 @@ export function chairHoverAnimation(object, isHovering) {
       x: object.userData.initialRotation.x,
       y: object.userData.initialRotation.y,
       z: object.userData.initialRotation.z,
-      duration: 0.3,
+      duration: 0.5,
       ease: "power1.out",
       onComplete: () => { object.userData.isAnimating = false; }
     });

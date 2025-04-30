@@ -69,5 +69,5 @@ window.addEventListener("resize", () => {
     // Renderer Updating
     store.renderer.setSize(store.sizes.width, store.sizes.height);
     store.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  }, 200);
+  }, 50);
 });

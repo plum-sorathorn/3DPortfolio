@@ -18,7 +18,15 @@ export function startIntroAnimation() {
         x: store.tesseract_outer_raycaster.userData.originalScale.x,
         y: store.tesseract_outer_raycaster.userData.originalScale.y,
         z: store.tesseract_outer_raycaster.userData.originalScale.z,
-    },).to(store.frame3_screen.scale, {
+    },).to(store.linkedin_raycaster.scale, {
+        x: store.linkedin_raycaster.userData.originalScale.x,
+        y: store.linkedin_raycaster.userData.originalScale.y,
+        z: store.linkedin_raycaster.userData.originalScale.z,
+    },"-=0.2").to(store.github_raycaster.scale, {
+        x: store.github_raycaster.userData.originalScale.x,
+        y: store.github_raycaster.userData.originalScale.y,
+        z: store.github_raycaster.userData.originalScale.z,
+    },"-=0.2").to(store.frame3_screen.scale, {
         x: store.frame3_screen.userData.originalScale.x,
         y: store.frame3_screen.userData.originalScale.y,
         z: store.frame3_screen.userData.originalScale.z,
@@ -30,14 +38,6 @@ export function startIntroAnimation() {
         x: store.frame1_screen.userData.originalScale.x,
         y: store.frame1_screen.userData.originalScale.y,
         z: store.frame1_screen.userData.originalScale.z,
-    },"-=0.2").to(store.linkedin_raycaster.scale, {
-        x: store.linkedin_raycaster.userData.originalScale.x,
-        y: store.linkedin_raycaster.userData.originalScale.y,
-        z: store.linkedin_raycaster.userData.originalScale.z,
-    },"-=0.2").to(store.github_raycaster.scale, {
-        x: store.github_raycaster.userData.originalScale.x,
-        y: store.github_raycaster.userData.originalScale.y,
-        z: store.github_raycaster.userData.originalScale.z,
     },"-=0.2");
 
     // intro animation for hologram objects
@@ -50,11 +50,11 @@ export function startIntroAnimation() {
         x: store.hologram_cone.userData.originalScale.x,
         y: store.hologram_cone.userData.originalScale.y,
         z: store.hologram_cone.userData.originalScale.z,
-    }).to(store.hologram_screen.scale, {
+    },"+=0.1").to(store.hologram_screen.scale, {
         x: store.hologram_screen.userData.originalScale.x,
         y: store.hologram_screen.userData.originalScale.y,
         z: store.hologram_screen.userData.originalScale.z,
-    }).to(store.fans1.scale, {
+    },"+=0.1").to(store.fans1.scale, {
         x: store.fans1.userData.originalScale.x,
         y: store.fans1.userData.originalScale.y,
         z: store.fans1.userData.originalScale.z,
@@ -74,22 +74,14 @@ export function startIntroAnimation() {
         ease: "back.out(1.8)",
     });
 
-    timelineCenter.to(store.chair_bottom.scale, {
-        x: store.chair_bottom.userData.originalScale.x,
-        y: store.chair_bottom.userData.originalScale.y,
-        z: store.chair_bottom.userData.originalScale.z,
-    }).to(store.chair_top.scale, {
-        x: store.chair_top.userData.originalScale.x,
-        y: store.chair_top.userData.originalScale.y,
-        z: store.chair_top.userData.originalScale.z,
-    }, "<").to(store.keyboard.scale, {
+    timelineCenter.to(store.keyboard.scale, {
         x: store.keyboard.userData.originalScale.x,
         y: store.keyboard.userData.originalScale.y,
         z: store.keyboard.userData.originalScale.z,
-    }).to(store.monitor_screen.scale, {
+    },"+=1").to(store.monitor_screen.scale, {
         x: store.monitor_screen.userData.originalScale.x,
         y: store.monitor_screen.userData.originalScale.y,
         z: store.monitor_screen.userData.originalScale.z,
-    },"+=0.4");
+    },"+=0.1");
 
 }

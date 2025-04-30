@@ -81,10 +81,6 @@ export function loadRoomModel() {
           store.frame3_screen = child;
           child.userData.originalScale = child.scale.clone();
           child.scale.set(0, 0, 0);
-        } else if (child.name === "chair_top_raycaster") {
-          store.chair_top = child;
-          child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "hologram_screen_raycaster") {
           store.hologram_screen = child;
           child.userData.originalScale = child.scale.clone();
@@ -93,10 +89,12 @@ export function loadRoomModel() {
           store.hologram_cone = child;
           child.userData.originalScale = child.scale.clone();
           child.scale.set(0, 0, 0);
+        } else if (child.name === "chair_top_raycaster") {
+          store.chair_top = child;
+          child.userData.originalScale = child.scale.clone();
         } else if (child.name === "chair_bottom") {
           store.chair_bottom = child;
           child.userData.originalScale = child.scale.clone();
-          child.scale.set(0, 0, 0);
         } else if (child.name === "github_raycaster") {
           store.github_raycaster = child;
           child.userData.originalScale = child.scale.clone();
