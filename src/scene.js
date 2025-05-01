@@ -35,8 +35,8 @@ store.controls.update();
 // set starting position and camera angle
 if (window.innerWidth < 768) {
   // Adjust for smaller screens (e.g., phones)
-  store.camera.position.set(25, 25, -25);
-  store.controls.target.set(0, 10, 0);   // Adjust target accordingly
+  store.camera.position.set(22, 25, -22);
+  store.controls.target.set(0, 8, 0);
 } else {
   // Default position for larger screens
   store.camera.position.set(12, 15, -12);
@@ -44,8 +44,8 @@ if (window.innerWidth < 768) {
 }
 
 const v = new THREE.Vector3();
-const minPan = new THREE.Vector3(-7,  3, -5); // min panning limits
-const maxPan = new THREE.Vector3( 7, 15,  7); // max panning limits
+const minPan = new THREE.Vector3(-7,  3, -5);
+const maxPan = new THREE.Vector3( 7, 15,  7);
 
 store.controls.addEventListener('change', () => {
   v.copy(store.controls.target);

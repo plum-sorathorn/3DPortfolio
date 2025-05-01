@@ -1,11 +1,6 @@
 import { store } from './store.js';
 import { showIframe, showMonitorIframe } from './dom.js';
 import {
-  contactsHoverAnimation,
-  framesHoverAnimation,
-  hologramHoverAnimation,
-  tesseractHoverAnimation,
-  chairHoverAnimation,
   chairClickAnimation,
   tesseractClickAnimation,
   holoscreenClickAnimation,
@@ -37,7 +32,28 @@ function handleRaycasterInteraction() {
 window.addEventListener("touchend", e => { e.preventDefault(); handleRaycasterInteraction(); }, { passive: false });
 window.addEventListener("click", handleRaycasterInteraction);
 
+store.touchObjects = false;
+
+window.addEventListener("touchend", () => {
+  store.touchObjects = true;
+  const intersects = store.raycaster.intersectObjects(store.raycasterObjects);
+  if (!intersects.length) return;
+  const obj = intersects[0].object;
+  if (obj.name.includes("chair")) {
+    obj.userData.isClicked = !obj.userData.isClicked;
+    chairClickAnimation(obj);
+  }
+  if (obj.name.includes("tesseract")) {
+    obj.userData.isClicked = !obj.userData.isClicked;
+    tesseractClickAnimation(obj);
+  }
+  if (obj.name.includes("hologram_screen")) holoscreenClickAnimation(obj);
+});
+
 window.addEventListener("click", () => {
+  if (store.touchObjects){
+    return;
+  }
   const intersects = store.raycaster.intersectObjects(store.raycasterObjects);
   if (!intersects.length) return;
   const obj = intersects[0].object;

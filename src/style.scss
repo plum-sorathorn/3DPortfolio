@@ -168,6 +168,20 @@ html, body {
   align-items: center;
   z-index: 9999;
 
+  .loading-screen-controls{
+    display: flex;
+    justify-self: center;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    color: #00ba95;
+    cursor: default;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1px;
+    position: absolute;
+    bottom: 5%;
+  }
+
   .loading-screen-button {
     font-weight: bold;
     padding: 1rem 2rem;

@@ -6,7 +6,7 @@ export function startIntroAnimation() {
 
     // intro animation for shelf objects
     const timelineRight = gsap.timeline({
-        duration: 0.8,
+        duration: 1,
         ease: "back.out(1.8)",
     });
 
@@ -42,7 +42,7 @@ export function startIntroAnimation() {
 
     // intro animation for hologram objects
     const timelineLeft = gsap.timeline({
-        duration: 1.2,
+        duration: 1.4,
         ease: "back.out(1.8)",
     });
 
@@ -70,7 +70,7 @@ export function startIntroAnimation() {
 
     // intro animation for chair, monitor, and keyboard (center objects)
     const timelineCenter = gsap.timeline({
-        duration: 1.7,
+        duration: 1.9,
         ease: "back.out(1.8)",
     });
 

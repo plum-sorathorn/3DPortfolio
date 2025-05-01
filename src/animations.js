@@ -177,6 +177,7 @@ export function tesseractHoverAnimation(object, isHovering) {
 
 // mouse‑hovering animation for chair
 export function chairHoverAnimation(object, isHovering) {
+  if (object.userData.isClicked) return;
   gsap.killTweensOf(object.rotation);
 
   if (isHovering) {
@@ -213,14 +214,26 @@ export function chairHoverAnimation(object, isHovering) {
 /* START OF MOUSE CLICK ANIMATIONS */
 export function chairClickAnimation(object) {
   gsap.killTweensOf(object.rotation);
-  gsap.to(object.rotation, {
-    y: object.userData.initialRotation.y + Math.PI / 6,
-    duration: 1.5,
-    ease: "power1.inOut",
-    yoyo: true,
-    repeat: -1,
-    onComplete: () => { object.userData.isAnimating = false; }
-  });
+  
+  if (object.userData.isClicked) {
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y + Math.PI / 6,
+      duration: 1.5,
+      ease: "power1.inOut",
+      yoyo: true,
+      repeat: -1,
+    });
+  } else {
+    gsap.to(object.rotation, {
+      y: object.userData.initialRotation.y,
+      duration: 0.9,
+      ease: "power1.out",
+      onComplete: () => { 
+        object.userData.isAnimating = false; 
+        object.userdata.isClicked = false;
+      }
+    });
+  }
 }
 
 export function tesseractClickAnimation(object) {
