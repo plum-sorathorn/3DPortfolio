@@ -1,5 +1,4 @@
 import './style.scss';
-import { changeText } from './controls.js';
 
 // Pull in side‑effect modules first (they populate `store`)
 import './constants.js';
