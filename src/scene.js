@@ -17,7 +17,7 @@ store.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 store.composer = new EffectComposer(store.renderer);
 store.renderPass = new RenderPass(store.scene, store.camera);
 store.composer.addPass(store.renderPass);
-store.unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.1, 1);
+store.unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.6, 0.05, 0.9);
 store.composer.addPass(store.unrealBloomPass);
 
 store.controls = new OrbitControls(store.camera, store.renderer.domElement);

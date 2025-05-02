@@ -17,7 +17,7 @@ export function startRenderLoop() {
 
     time += 0.008;
     store.tesseracts.forEach(tess => {
-      tess.material.emissiveIntensity = store.innerOriginalIntensity * (Math.sin(time * 2) * 0.5 + 1);
+      tess.material.emissiveIntensity = store.innerOriginalIntensity * (Math.sin(time * 10) * 0.8 + 2);
     });
 
     store.raycaster.setFromCamera(store.pointer, store.camera);

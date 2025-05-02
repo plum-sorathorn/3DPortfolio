@@ -8,12 +8,17 @@ export function startMonitorPulse(object) {
   if (object && object.material.color && !object.userData.isHovered) {
     gsap.killTweensOf(object.material.color);
 
+    const baseColor = object.material.color.clone().multiplyScalar(0.5);
+    const brightColor = object.material.color.clone().multiplyScalar(1.3);
+
+    object.material.color.copy(baseColor);
+
     if (!object.userData.pulseTween || !object.userData.pulseTween.isActive()) {
       object.userData.pulseTween = gsap.to(object.material.color, {
-        r: object.material.color.r * 1.9,
-        g: object.material.color.g * 1.9,
-        b: object.material.color.b * 1.9,
-        duration: 0.7,
+        r: brightColor.r,
+        g: brightColor.g,
+        b: brightColor.b,
+        duration: 1,
         ease: "sine.inOut",
         yoyo: true,
         repeat: -1,
