@@ -6,6 +6,11 @@
     <title>Plum's Portfolio</title>
   </head>
   <body>
+    <!-- preloading of images and iframes -->
+    <iframe src="/iframes/webpage/index.html" style="width:0;height:0;visibility:hidden;"></iframe>
+    <img src="/images/CompTIA_Network.png" style="display: none;" alt="preload certificate" />
+    <img src="/images/CompTIA_CSIS.png" style="display: none;" alt="preload certificate" />
+    <img src="/images/CompTIA_Security.png" style="display: none;" alt="preload certificate" />
 
     <div class="loading-screen">
       <h1 class="loading-screen-controls" id="controls-text"></h1>
@@ -19,13 +24,13 @@
     </div>
     
     <div id="app"></div>
-    <div class="cerNet modal" src="/images/CompTIA_Network.png"></div>
-    <div class="cerCSIS modal" src="/images/CompTIA_CSIS.png"></div>
-    <div class="cerSec modal" src="/images/CompTIA_Security.png"></div>
+    <div class="cerNet modal"></div>
+    <div class="cerCSIS modal"></div>
+    <div class="cerSec modal"></div>
     <div class="iframe-modal modal">
       <div class="iframe-container">
         <button class="modal-exit-button">✖</button>
-        <iframe id="iframe-viewer" src="/iframes/webpage/index.html"></iframe>
+        <iframe id="iframe-viewer"></iframe>
       </div>
     </div>
 
