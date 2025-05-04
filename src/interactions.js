@@ -21,11 +21,19 @@ function handleRaycasterInteraction() {
       }
     });
 
-    if (object.name === "frame1_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Network.png");
-    if (object.name === "frame2_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_CSIS.png");
-    if (object.name === "frame3_screen_raycaster") showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Security.png");
+    if (object.name === "frame1_screen_raycaster") {
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Network.png");
+    }
+    if (object.name === "frame2_screen_raycaster") {
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_CSIS.png");
+    }
+      if (object.name === "frame3_screen_raycaster") {
+      showIframe("/iframes/iframe-viewer.html?img=/images/CompTIA_Security.png");
+    }
 
-    if (object.name.includes("monitor_screen_raycaster")) showMonitorIframe("/iframes/webpage/index.html");
+    if (object.name.includes("monitor_screen_raycaster")) {
+      showMonitorIframe("/iframes/webpage/index.html");
+    }
   }
 }
 

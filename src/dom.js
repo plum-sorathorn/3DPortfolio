@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { store } from './store.js';
 import { startIntroAnimation } from './introAnimations.js';
 import { playMusic } from './backgroundMusic.js';
+import { startRenderLoop } from './render.js';
 
 // Cache DOM elements
 store.modalExitButtons = document.querySelectorAll(".modal-exit-button");
@@ -97,6 +98,8 @@ store.modalExitButtons.forEach(button => {
     store.touchHappened = true;
     const modal = event.target.closest(".modal");
     store.hideModal(modal);
+    store.pauseRender = false;
+    startRenderLoop();
   }, { passive: false });
 
   // Desktop
@@ -104,6 +107,8 @@ store.modalExitButtons.forEach(button => {
     if (store.touchHappened) return;
     const modal = event.target.closest(".modal");
     store.hideModal(modal);
+    store.pauseRender = false;
+    startRenderLoop();
   });
 });
 
@@ -111,15 +116,29 @@ store.modalExitButtons.forEach(button => {
 export const showIframe = src => {
   store.iframeViewer.src = src;
   store.showModal(store.iframeModal);
+  store.pauseRender = true;
 };
 
 export const showMonitorIframe = src => {
   store.monitorIframe.src = src;
   store.showModal(store.monitorModal);
+  store.pauseRender = true;
 };
 
 // Hide modal on backdrop press
 store.modals.forEach(modal => {
-  modal.addEventListener('click', e => e.target === modal && store.hideModal(modal));
-  modal.addEventListener('touchend', e => e.target === modal && store.hideModal(modal), { passive: false });
+  modal.addEventListener('click', event => {
+    if (event.target === modal){
+      store.hideModal(modal);
+      store.pauseRender = false;
+      startRenderLoop();
+    }
+  });
+  modal.addEventListener('touchend', event => {
+    if (event.target === modal){
+      store.hideModal(modal);
+      store.pauseRender = false;
+      startRenderLoop();
+    }
+  }, { passive: false });
 });
