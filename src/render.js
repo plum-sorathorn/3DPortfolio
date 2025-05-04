@@ -6,18 +6,22 @@ import {
   tesseractHoverAnimation,
   chairHoverAnimation,
 } from './animations.js';
+import * as THREE from 'three';
 
 /* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
-let time = 0;
+
+
+const clock = new THREE.Clock();
+
 export function startRenderLoop() {
   const render = () => {
     store.controls.update();
 
     store.fans.forEach(fan => fan.rotation.y += 0.05);
 
-    time += 0.008;
+    const elapsedTime = clock.getElapsedTime();
     store.tesseracts.forEach(tess => {
-      tess.material.emissiveIntensity = store.innerOriginalIntensity * (Math.sin(time * 10) * 0.8 + 2);
+      tess.material.emissiveIntensity = store.innerOriginalIntensity * (Math.sin(elapsedTime * 3) * 0.8 + 2);
     });
 
     store.raycaster.setFromCamera(store.pointer, store.camera);
