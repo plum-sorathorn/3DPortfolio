@@ -85,12 +85,10 @@ html, body {
   .modal-exit-button {
     position: absolute;
     background-color: transparent;
-    right: 15%;
-    top: 15%;
+    right: 5vw;
+    top: 5vh;
     border: none;
-    width: 10%;
-    height: 10%;
-    font-size: 100%;
+    font-size: 1vi;
     font-weight: bold;
     color: #000;
     cursor: pointer;
@@ -115,7 +113,7 @@ html, body {
   align-content: center;
 
   .monitor-iframe-container {
-    width: 70vw;
+    width: 90vw;
     height: 90vh;
     display: flex;
     justify-self: center;
@@ -134,12 +132,10 @@ html, body {
   .modal-exit-button {
     position: absolute;
     background-color: transparent;
-    right: 5%;
-    top: 5%;
+    right: 2%;
+    top: 2%;
     border: none;
-    width: 10%;
-    height: 10%;
-    font-size: 100%;
+    font-size: 1vi;
     font-weight: bold;
     color: #000;
     cursor: pointer;
