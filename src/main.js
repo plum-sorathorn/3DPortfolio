@@ -12,9 +12,11 @@ import './raycaster.js';
 import { loadRoomModel }   from './modelLoader.js';
 import './interactions.js';
 import { startRenderLoop } from './render.js';
+import { initRenderer } from './scene.js';
 
 // change to async so it can be deployed
-(async () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    initRenderer();
     await loadRoomModel();
     startRenderLoop();
-})();
+  });

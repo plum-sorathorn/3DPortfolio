@@ -9,10 +9,18 @@ import { store } from './store.js';
 store.scene = new THREE.Scene();
 store.camera = new THREE.PerspectiveCamera(75, store.sizes.width / store.sizes.height, 0.1, 1000);
 
-store.canvas = document.querySelector("#experience-canvas");
-store.renderer = new THREE.WebGLRenderer({ canvas: store.canvas, antialias: true });
-store.renderer.setSize(store.sizes.width, store.sizes.height);
-store.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+export function initRenderer(){
+  // grab the canvas only after DOM is parsed
+  const canvas = document.getElementById('experience-canvas') ||
+                  document.createElement('canvas');   // fallback
+    if (!canvas.isConnected) document.body.appendChild(canvas);
+  store.canvas   = canvas;
+  store.renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
+  // keep your clamped DPR if you added it for iOS
+  const pr = Math.min(window.devicePixelRatio, 2);
+  store.renderer.setPixelRatio(pr);
+  store.renderer.setSize(store.sizes.width, store.sizes.height);
+}
 
 store.composer = new EffectComposer(store.renderer);
 store.renderPass = new RenderPass(store.scene, store.camera);
