@@ -235,7 +235,7 @@ export function chairClickAnimation(object) {
       ease: "power1.out",
       onComplete: () => { 
         object.userData.isAnimating = false; 
-        object.userdata.isClicked = false;
+        object.userData.isClicked = false;
       }
     });
   }

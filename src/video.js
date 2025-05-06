@@ -8,6 +8,7 @@ store.holoVideo.src = "/textures/videos/holoscreen2.mp4";
 store.holoVideo.loop = true;
 store.holoVideo.muted = true;
 store.holoVideo.autoplay = true;
+store.holoVideo.playsInline = true;
 
 const playHoloVideo = () => {
   store.holoVideo.play().catch(err => console.error("Error playing holo video:", err));
