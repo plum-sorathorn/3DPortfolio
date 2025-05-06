@@ -1,6 +1,6 @@
 import './style.scss';
 import { changeText } from './controls.js';
-import { isWebGLAvailable, showWebGLBanner } from './webglBanner.js';
+import { isWebGLAvailable, showWebGLBanner } from './webglbanner.js';
 
 // Pull in side‑effect modules first (they populate `store`)
 import './constants.js';
