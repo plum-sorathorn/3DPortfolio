@@ -43,9 +43,7 @@ https://www.splum.org/
 │   ├── iframes          # Embedded iframe pages
 │   ├── music            # mp3 file for background music
 │   └── images           # certification images
-
 ├── package.json         # NPM scripts & dependencies
-
 └── vite.config.js       # Vite configuration
 ```
 
