@@ -3,31 +3,34 @@ import * as THREE from 'three';
 import { store } from './store.js';
 
 /* START OF DEFAULT ANIMATION FUNCTIONS */
+
 // Default pulsing animation for the monitor screen
 export function startMonitorPulse(object) {
   if (object && object.material.color && !object.userData.isHovered) {
     gsap.killTweensOf(object.material.color);
 
-    const baseColor = object.material.color.clone().multiplyScalar(0.5);
+    const baseColor   = object.material.color.clone().multiplyScalar(0.4);
     const brightColor = object.material.color.clone().multiplyScalar(1.3);
 
     object.material.color.copy(baseColor);
-
-    if (!object.userData.pulseTween || !object.userData.pulseTween.isActive()) {
-      object.userData.pulseTween = gsap.to(object.material.color, {
+    if (!object.userData.pulseTimeline) {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.7 });
+      tl.to(object.material.color, {
         r: brightColor.r,
         g: brightColor.g,
         b: brightColor.b,
-        duration: 1,
+        duration: 0.5,
         ease: "sine.inOut",
         yoyo: true,
-        repeat: -1,
+        repeat: 3,
       });
+      object.userData.pulseTimeline = tl;
     } else {
-      object.userData.pulseTween.resume();
+      object.userData.pulseTimeline.resume();
     }
   }
 }
+
 /* END OF DEFAULT ANIMATION FUNCTIONS */
 
 
