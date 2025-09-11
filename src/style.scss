@@ -64,8 +64,8 @@ html, body {
   align-content: center;
 
   .iframe-container {
-    width: 70vw;
-    height: 70vh;
+    width: 40vw;
+    height: 55vh;
     display: flex;
     justify-self: center;
     align-self: center;
@@ -88,7 +88,7 @@ html, body {
     right: 5vw;
     top: 5vh;
     border: none;
-    font-size: 1vi;
+    font-size: 2vi;
     font-weight: bold;
     color: #000;
     cursor: pointer;
@@ -174,7 +174,7 @@ html, body {
     font-family: 'Courier New', Courier, monospace;
     letter-spacing: 1px;
     position: absolute;
-    bottom: 30%;
+    bottom: 5%;
   }
 
   .loading-screen-button {
