@@ -10,7 +10,7 @@ export function startMonitorPulse(object) {
     gsap.killTweensOf(object.material.color);
 
     const baseColor   = object.material.color.clone().multiplyScalar(0.4);
-    const brightColor = object.material.color.clone().multiplyScalar(1.3);
+    const brightColor = object.material.color.clone().multiplyScalar(1.7);
 
     object.material.color.copy(baseColor);
     if (!object.userData.pulseTimeline) {
