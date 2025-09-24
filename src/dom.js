@@ -66,9 +66,9 @@ store.manager.onLoad = function () {
     }, "+=1");
   }
 
-  // Event listeners
-  loadingScreenButton.addEventListener("click", handleEnter);
-  loadingScreenButton.addEventListener("touchend", e => {
+  // Event listeners on the entire loading screen
+  loadingScreen.addEventListener("click", handleEnter);
+  loadingScreen.addEventListener("touchend", e => {
     e.preventDefault();
     handleEnter();
   }, { passive: false });
