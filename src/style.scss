@@ -65,20 +65,25 @@ html, body {
 
   .iframe-container {
     display: flex;
-    justify-self: center;
     height: 35vh;
+    width: fit-content;
+    aspect-ratio: 11 / 8.5;
     border-radius: 12px;
     overflow: hidden;
+    justify-self: center;
   }
 
   .iframe-container iframe{
     border: none;
-    height: 100%;
+    width: fit-content;
+    height: fit-content;
+    aspect-ratio: 11 / 8.5;
   }
 
   .iframe-viewer {
     width: fit-content;
     height: fit-content;
+    aspect-ratio: 11 / 8.5;
   }
 
   .modal-exit-button {
