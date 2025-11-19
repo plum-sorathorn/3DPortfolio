@@ -16,12 +16,10 @@ store.holoVideo.oncanplaythrough = () => {
     store.holoVideo.oncanplaythrough = null;
 };
 
-// --- Visibility Change Handler (Standard Three.js Practice) ---
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) store.holoVideo.pause();
   else store.holoVideo.play().catch(err => console.warn("Holo Autoplay prevented (visibility change):", err));
 });
 
-// --- Three.js Texture Setup ---
 store.holoVideoTexture = new THREE.VideoTexture(store.holoVideo);
 store.holoVideoTexture.colorSpace = THREE.SRGBColorSpace;
