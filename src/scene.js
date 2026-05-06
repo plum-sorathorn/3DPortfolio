@@ -7,6 +7,7 @@ import { store } from './store.js';
 
 /* SETTING UP SCENE, CAMERA, AND LIGHTING */
 store.scene = new THREE.Scene();
+store.scene.background = new THREE.Color('#d4d1c8');
 store.camera = new THREE.PerspectiveCamera(75, store.sizes.width / store.sizes.height, 0.1, 1000);
 
 export function initRenderer(){
