@@ -197,6 +197,44 @@ export function loadRoomModel() {
           child.material = material;
           // END OF INITIALIZING TEXTURES */
 
+          // Fix table corner triangulation artifacts from Blender modeling via code
+          if (child.name === "table") {
+            if (child.geometry.index) {
+              child.geometry = child.geometry.toNonIndexed();
+            }
+            const posAttr = child.geometry.attributes.position;
+            const uvAttr = child.geometry.attributes.uv;
+            const triCount = posAttr.count / 3;
+
+            // Bounding box of the corner fan region
+            const xMin = -0.502, xMax = 0.192;
+            const zMin = 0.151, zMax = 0.816;
+            // Safe bounds within the clean oak plank on TextureSet2_table.webp
+            const uMin = 0.235, uMax = 0.385;
+            const vMin = 0.605, vMax = 0.965;
+
+            for (let i = 0; i < triCount; i++) {
+              const i0 = i * 3, i1 = i * 3 + 1, i2 = i * 3 + 2;
+              const y0 = posAttr.getY(i0), y1 = posAttr.getY(i1), y2 = posAttr.getY(i2);
+              if (y0 > 0.698 && y1 > 0.698 && y2 > 0.698) {
+                const z0 = posAttr.getZ(i0), z1 = posAttr.getZ(i1), z2 = posAttr.getZ(i2);
+                const x0 = posAttr.getX(i0), x1 = posAttr.getX(i1), x2 = posAttr.getX(i2);
+                if (z0 >= 0.150 && z1 >= 0.150 && z2 >= 0.150 && x0 <= 0.193 && x1 <= 0.193 && x2 <= 0.193) {
+                  for (let v = 0; v < 3; v++) {
+                    const vi = i * 3 + v;
+                    const vx = posAttr.getX(vi);
+                    const vz = posAttr.getZ(vi);
+                    const nx = Math.min(Math.max((vx - xMin) / (xMax - xMin), 0), 1);
+                    const nz = Math.min(Math.max((vz - zMin) / (zMax - zMin), 0), 1);
+                    uvAttr.setXY(vi, uMin + nx * (uMax - uMin), vMin + nz * (vMax - vMin));
+                  }
+                }
+              }
+            }
+            uvAttr.needsUpdate = true;
+          }
+
+
           // initilize raycaster objects
           if (child.name.includes("_raycaster")) {
             store.raycasterObjects.push(child);

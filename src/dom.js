@@ -79,6 +79,10 @@ store.manager.onLoad = function () {
     e.preventDefault();
     handleEnter();
   }, { passive: false });
+
+  if (window.location.search.includes('autostart')) {
+    setTimeout(handleEnter, 100);
+  }
 };
 
 store.touchHappened = false;
