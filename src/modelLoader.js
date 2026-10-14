@@ -191,7 +191,7 @@ export function loadRoomModel() {
             material.color.setHex(0x00bd99).multiplyScalar(5);
           } else {
             material = new THREE.MeshBasicMaterial({ map: store.loadedTextures.texture[key] });
-            if (material.map) material.map.minFilter = THREE.LinearFilter;
+            if (material.map) material.map.minFilter = THREE.LinearMipmapLinearFilter;
           }
 
           child.material = material;

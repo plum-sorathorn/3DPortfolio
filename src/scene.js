@@ -13,23 +13,25 @@ export function initRenderer(){
   const canvas = document.getElementById('experience-canvas') || document.createElement('canvas');
   if (!canvas.isConnected) document.body.appendChild(canvas);
   store.canvas   = canvas;
-  store.renderer = new THREE.WebGLRenderer({ canvas, antialias:true, powerPreference:'high-performance' });
-  const pr = Math.min(window.devicePixelRatio, 2);
+  store.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  const pr = Math.min(window.devicePixelRatio, 1.5);
   store.renderer.setPixelRatio(pr);
   store.renderer.setSize(store.sizes.width, store.sizes.height);
 }
 
 export function initPost() {
   const composer = new EffectComposer(store.renderer);
-  composer.setPixelRatio(store.renderer.getPixelRatio());
+  const pr = Math.min(window.devicePixelRatio, 1.5);
+  composer.setPixelRatio(pr);
   composer.setSize(store.sizes.width, store.sizes.height);
   const renderPass = new RenderPass(store.scene, store.camera);
   composer.addPass(renderPass);
   const bloom = new UnrealBloomPass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    new THREE.Vector2(store.sizes.width, store.sizes.height),
     0.6, 0.05, 0.9
   );
   composer.addPass(bloom);
+  store.bloomPass = bloom;
   store.composer = composer;
 }
 
@@ -66,6 +68,7 @@ export function initControls(){
     store.controls.target.clamp(minPan, maxPan);
     v.sub(store.controls.target);
     store.camera.position.sub(v);
+    store.raycastNeedsUpdate = true;
   });
 
 }
@@ -73,12 +76,14 @@ export function initControls(){
 /* Debounce resize */
 let resizeTimeout;
 window.addEventListener("resize", () => {
-  if (!store.renderer) return;
-  store.renderer.setSize(store.sizes.width, store.sizes.height);
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
+    if (!store.renderer) return;
+
     store.sizes.width = window.innerWidth;
     store.sizes.height = window.innerHeight;
+
+    const pr = Math.min(window.devicePixelRatio, 1.5);
 
     // Camera updating
     store.camera.aspect = store.sizes.width / store.sizes.height;
@@ -86,6 +91,17 @@ window.addEventListener("resize", () => {
 
     // Renderer Updating
     store.renderer.setSize(store.sizes.width, store.sizes.height);
-    store.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  }, 50);
+    store.renderer.setPixelRatio(pr);
+
+    // Post-processing Composer Updating (Fixes blur/distortion on resize)
+    if (store.composer) {
+      store.composer.setPixelRatio(pr);
+      store.composer.setSize(store.sizes.width, store.sizes.height);
+    }
+    if (store.bloomPass) {
+      store.bloomPass.resolution.set(store.sizes.width, store.sizes.height);
+    }
+
+    store.raycastNeedsUpdate = true;
+  }, 75);
 });

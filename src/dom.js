@@ -18,6 +18,13 @@ store.manager = new THREE.LoadingManager();
 store.loadingScreen = document.querySelector('.loading-screen');
 store.loadingScreenButton = document.querySelector('.loading-screen-button');
 
+store.manager.onProgress = function (url, itemsLoaded, itemsTotal) {
+  const percent = Math.round((itemsLoaded / itemsTotal) * 100);
+  if (store.loadingScreenButton && store.loadingScreenButton.textContent !== "Enter") {
+    store.loadingScreenButton.textContent = `Loading... ${percent}%`;
+  }
+};
+
 store.manager.onLoad = function () {
   const { loadingScreen, loadingScreenButton } = store;
 
@@ -50,7 +57,7 @@ store.manager.onLoad = function () {
   }
 
   function playReveal() {
-    const timeline = gsap.timeline()
+    const timeline = gsap.timeline();
 
     timeline.to(loadingScreen, {
       opacity: 0,
@@ -61,7 +68,7 @@ store.manager.onLoad = function () {
       }
     }).to(loadingScreen, {
       onComplete: () => {
-        loadingScreen.remove()
+        loadingScreen.remove();
       }
     }, "+=1");
   }
@@ -91,24 +98,28 @@ store.hideModal = modal => {
   });
 };
 
+function closeModal(modal) {
+  if (!modal) return;
+  store.hideModal(modal);
+  store.pauseRender = false;
+  startRenderLoop();
+  if (store.holoVideo && !document.hidden) {
+    store.holoVideo.play().catch(() => {});
+  }
+}
+
 // Exit buttons - phones and PCs
 store.modalExitButtons.forEach(button => {
-  // Mobile devices
   button.addEventListener("touchend", event => {
     store.touchHappened = true;
     const modal = event.target.closest(".modal");
-    store.hideModal(modal);
-    store.pauseRender = false;
-    startRenderLoop();
-  }, { passive: false });
+    closeModal(modal);
+  }, { passive: true });
 
-  // Desktop
   button.addEventListener("click", event => {
     if (store.touchHappened) return;
     const modal = event.target.closest(".modal");
-    store.hideModal(modal);
-    store.pauseRender = false;
-    startRenderLoop();
+    closeModal(modal);
   });
 });
 
@@ -117,28 +128,28 @@ export const showIframe = src => {
   store.iframeViewer.src = src;
   store.showModal(store.iframeModal);
   store.pauseRender = true;
+  if (store.holoVideo) store.holoVideo.pause();
 };
 
 export const showMonitorIframe = src => {
-  store.monitorIframe.src = src;
+  if (store.monitorIframe.src !== src) {
+    store.monitorIframe.src = src;
+  }
   store.showModal(store.monitorModal);
   store.pauseRender = true;
+  if (store.holoVideo) store.holoVideo.pause();
 };
 
 // Hide modal on backdrop press
 store.modals.forEach(modal => {
   modal.addEventListener('click', event => {
-    if (event.target === modal){
-      store.hideModal(modal);
-      store.pauseRender = false;
-      startRenderLoop();
+    if (event.target === modal) {
+      closeModal(modal);
     }
   });
   modal.addEventListener('touchend', event => {
-    if (event.target === modal){
-      store.hideModal(modal);
-      store.pauseRender = false;
-      startRenderLoop();
+    if (event.target === modal) {
+      closeModal(modal);
     }
-  }, { passive: false });
+  }, { passive: true });
 });
