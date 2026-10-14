@@ -9,6 +9,7 @@ store.raycasterObjects = [];
 store.raycaster = new THREE.Raycaster();
 store.pointer = new THREE.Vector2();
 store.pointerNeedsUpdate = false;
+store.raycastNeedsUpdate = true;
 
 // pointer update events
 window.addEventListener("mousemove", event => {
@@ -17,6 +18,7 @@ window.addEventListener("mousemove", event => {
 });
 
 window.addEventListener("touchstart", event => {
-  event.preventDefault();
-  updatePointer(event.touches[0].clientX, event.touches[0].clientY);
-}, { passive: false });
+  if (event.touches.length > 0) {
+    updatePointer(event.touches[0].clientX, event.touches[0].clientY);
+  }
+}, { passive: true });

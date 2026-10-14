@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
  
      <!-- Site Metas -->
-    <title>Plum's Website</title>  
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>Sorathorn (Plum) Thongpitukthavorn | Portfolio</title>  
+    <meta name="keywords" content="Sorathorn Thongpitukthavorn, Plum, Software Engineer, Portfolio, Cornell Tech, Boston University">
+    <meta name="description" content="Personal portfolio of Sorathorn (Plum) Thongpitukthavorn - M.Eng. CS @ Cornell Tech, systems, AI, and distributed software engineering.">
+    <meta name="author" content="Sorathorn Thongpitukthavorn">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -54,6 +54,9 @@
 			      <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#experiences">Work Experience</a>
             </li>
+			      <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#certifications">Certifications</a>
             </li>
@@ -74,12 +77,13 @@
 	<section id="home" class="main-banner parallaxie" style="background: url('uploads/banner_01.jpg')">
 		<div class="heading">
 			<h1>hello i'm Plum!</h1>
-			<p>Welcome to my digital space. This is where I share my projects, experiences, and background. Feel free to explore!</p>
+			<p>Welcome to my digital space. M.Eng. CS @ Cornell Tech. Here is where I share my systems projects, engineering experiences, and background.</p>
 			<h3 class="cd-headline clip is-full-width">
 				<span>Fields I'm passionate about include </span>
 				<span class="cd-words-wrapper">
-					<b class="is-visible">Software Development</b>
-					<b>Cloud Infrastructure</b>
+					<b class="is-visible">Software & Multi-Agent AI</b>
+					<b>Distributed & Cloud Systems</b>
+					<b>Quantitative Engineering</b>
 					<b>Cybersecurity</b>
 				</span>
 			</h3>
@@ -117,14 +121,19 @@
                 <div class="col-md-6">
                     <div class="message-box">                        
                         <h2>About Me.</h2>
-                        <p> Hi, I'm Plum! I'm a curious and detail-oriented creative with a passion for building thoughtful, well-crafted digital projects. I thrive at the intersection of design and engineering, I'm constantly exploring ways to make technology not just work better, but feel better. </p>
+                        <p> Hi, I'm Plum (Sorathorn)! I'm an incoming M.Eng. in Computer Science student at Cornell Tech and a Boston University CS graduate. I'm a software and systems engineer passionate about building resilient distributed infrastructure, multi-agent AI harnesses, and quantitative analytics engines. I thrive at the intersection of systems engineering and intelligent software, constantly exploring ways to make complex systems fast, reliable, and intuitive. </p>
+                        <div class="skills-highlight" style="margin-top: 15px; margin-bottom: 25px;">
+                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Languages:</strong> Bash, C++, Go, Java, JavaScript, Python, SQL, TypeScript</p>
+                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Software & AI:</strong> DeepAgents, FastAPI, Flask, LangGraph, React, React Native, Spring Boot, LightGBM</p>
+                            <p style="margin-bottom: 0; font-size: 13px; color: #4a5568;"><strong>Infrastructure & Data:</strong> Apache Beam, AWS, Docker, GCP, Git, GitHub Actions, GitLab CI/CD, GKE/Kubernetes, Linux, PostgreSQL, SQLite</p>
+                        </div>
                         <a href="cv/resume.pdf" target="_blank" class="sim-btn btn-hover-new" data-text="Download Resume"><span>Download Resume</span></a>
                     </div><!-- end messagebox -->
                 </div><!-- end col -->
 
                 <div class="col-md-6">
                     <div class="right-box-pro wow fadeIn">
-                        <img src="uploads/about.jpg" alt="" class="img-fluid img-rounded">
+                        <img src="uploads/about.jpg" alt="" class="img-fluid img-rounded" loading="lazy" decoding="async">
                     </div><!-- end media -->
                 </div><!-- end col -->
             </div><!-- end row -->
@@ -142,87 +151,132 @@
 				<div class="col-md-12">
 					<div class="button-group filter-button-group text-left">
 						<button class="active" data-filter="*">All</button>
-						<button data-filter=".filter_soft">Software Development</button>
-						<button data-filter=".filter_cyber">Cybersecurity</button>
+						<button data-filter=".filter_soft">Software & AI</button>
 						<button data-filter=".filter_cloud">Cloud Platforms</button>
+						<button data-filter=".filter_cyber">Cybersecurity</button>
 					</div>
 				</div>
 			</div>
 			
 			<div class="gallery-list row">
 
-        <!-- hacktrackai -->
-				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_soft">
+        <!-- Skail -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_soft">
 					<div class="gallery-single fix">
-						<img src="uploads/hacktrack.png" class="img-fluid project-images" alt="Image" style="background-color: #f4f4f4;">
+						<img src="uploads/skail.jpg" class="img-fluid project-images" alt="Skail Logo" loading="lazy" decoding="async">
+						<div class="img-overlay">
+							<a href="https://github.com/plum-sorathorn/Skail" target="_blank" class="hoverbutton global-radius">
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
+						</div>
+            <h4 class="project-header">Skail</h4>
+            <h5 class="project-subheader">Python | LangGraph | DeepAgents | SQLite</h5>
+            <p class="project-desc">Local-first multi-agent coding harness coordinating up to 3 concurrent agents through dependency-aware task scheduling and isolated Git worktrees. Features budget-aware LLM routing and automated test/build verification gates.</p>
+					</div>
+				</div>
+
+        <!-- Project SCYLLA -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_soft">
+					<div class="gallery-single fix">
+						<img src="uploads/scylla.png" class="img-fluid project-images" alt="Project SCYLLA" loading="lazy" decoding="async">
+						<div class="img-overlay">
+							<a href="https://github.com/plum-sorathorn/PROJECT_SCYLLA" target="_blank" class="hoverbutton global-radius">
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
+						</div>
+            <h4 class="project-header">Project SCYLLA</h4>
+            <h5 class="project-subheader">C++ | Crow | FastAPI | LightGBM</h5>
+            <p class="project-desc">Dual-engine options analytics platform combining a multithreaded C++ REST service, Python market-data processing, and native LightGBM inference for single and batch predictions with chronological walk-forward backtesting.</p>
+					</div>
+				</div>
+
+        <!-- Cloud Infrastructure & Data Pipelines -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud">
+					<div class="gallery-single fix">
+						<img src="uploads/cloud_pipelines.png" class="img-fluid project-images" alt="Cloud Infrastructure" loading="lazy" decoding="async">
+						<div class="img-overlay">
+							<a href="https://github.com/plum-sorathorn/cs528" target="_blank" class="hoverbutton global-radius">
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
+						</div>
+            <h4 class="project-header">Cloud Infrastructure & Data Pipelines</h4>
+            <h5 class="project-subheader">Docker | GKE | Apache Beam | GCP</h5>
+            <p class="project-desc">Built Docker/GKE microservices and Apache Beam/Dataflow pipelines processing tens of millions of records, integrating Pub/Sub alerts and least-privilege IAM.</p>
+					</div>
+				</div>
+
+        <!-- HackTrackAI -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_cyber filter_soft">
+					<div class="gallery-single fix">
+						<img src="uploads/hacktrack.png" class="img-fluid project-images" alt="HackTrackAI" style="background-color: #f4f4f4;" loading="lazy" decoding="async">
 						<div class="img-overlay">
 							<a href="https://github.com/plum-sorathorn/hack-track-ai" target="_blank" class="hoverbutton global-radius">
                   <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
               </a>
 						</div>
             <h4 class="project-header">HackTrackAI</h4>
-            <h5 class="project-subheader">Global Cyber Threat Visualizer</h5>
-            <p class="project-desc">AI-powered cyber threat intelligence visualization web application that tracks and summarizes global cyberattacks in real time, hosted on AWS</p>
+            <h5 class="project-subheader">FastAPI | React | Deck.gl | AWS ECS</h5>
+            <p class="project-desc">AI-powered cybersecurity visualization platform integrating public threat intelligence APIs with Mistral AI to visualize global cyberattack activity and generate real-time threat summaries.</p>
 					</div>
 				</div>
-                
-        <!-- qr code generator and url shortener -->
-				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_soft">
+
+        <!-- 3D Interactive Portfolio -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_soft">
 					<div class="gallery-single fix">
-						<img src="uploads/qrgen.png" class="img-fluid project-images" alt="Image" style="background-color: #f4f4f4;">
+						<img src="uploads/portfolio3d.png" class="img-fluid project-images" alt="3D Interactive Portfolio" loading="lazy" decoding="async">
 						<div class="img-overlay">
-							<a href="https://github.com/plum-sorathorn/qr-and-url-on-google-cloud" target="_blank" class="hoverbutton global-radius">
+							<a href="https://github.com/plum-sorathorn/3DPortfolio" target="_blank" class="hoverbutton global-radius">
                   <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
               </a>
 						</div>
-            <h4 class="project-header">QR Code Generator and URL Shortener</h4>
-            <h5 class="project-subheader">Web App on Google Cloud</h5>
-            <p class="project-desc">A web-based tool hosted on Google Cloud that generates QR codes and shortens URLs for easy sharing with CI/CD pipeling via Github Actions.</p>
+            <h4 class="project-header">3D Interactive Portfolio</h4>
+            <h5 class="project-subheader">Three.js | Node.js | Vite | GSAP</h5>
+            <p class="project-desc">Interactive 3D portfolio rendered with Three.js and custom Blender assets, transforming a traditional website into an immersive environment optimized with glTF compression and GSAP animations.</p>
 					</div>
 				</div>
-                
-        <!-- aws wazuh siem -->
-				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_cyber">
-					<div class="gallery-single fix">
-						<img src="uploads/cloud_security.png" class="img-fluid project-images" alt="Image">
-						<div class="img-overlay">
-							<a href="https://github.com/plum-sorathorn/wazuh-siem-project" target="_blank" class="hoverbutton global-radius">
-                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
-              </a>
-						</div>
-            <h4 class="project-header">SIEM system on AWS EC2 with Wazuh</h4>
-            <h5 class="project-subheader">Cloud Security and Monitoring Tool</h5>
-            <p class="project-desc">A cloud-deployed SIEM solution using Wazuh on AWS with Nginx integrated to monitor and detect security threats.</p>
-					</div>
-				</div>
-				
-        <!-- pocket vault (usb-based password manager) -->   
+
+        <!-- PocketVault -->   
 				<div class="col-md-4 col-sm-6 gallery-grid filter_soft filter_cyber">
 					<div class="gallery-single fix">
-						<img src="uploads/pocketvault.png" class="img-fluid project-images" alt="Image">
+						<img src="uploads/pocketvault.png" class="img-fluid project-images" alt="PocketVault" loading="lazy" decoding="async">
 						<div class="img-overlay">
 							<a href="https://github.com/kcheb27/EC521_final_proj" target="_blank" class="hoverbutton global-radius">
                   <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
               </a>
 						</div>
-            <h4 class="project-header">Pocket Vault</h4>
-            <h5 class="project-subheader">USB-Based Password Manager</h5>
-            <p class="project-desc">A secure, chrome-extension based password manager that stores its database on a USB device, ensuring safe, offline management of credentials.</p>
+            <h4 class="project-header">PocketVault</h4>
+            <h5 class="project-subheader">JavaScript | Chrome API | FastAPI | SQLite</h5>
+            <p class="project-desc">Offline-first password manager combining a Chrome extension and local FastAPI service to store, retrieve, and autofill credentials using a USB-backed, AES-256-CBC encrypted SQLite database.</p>
 					</div>
 				</div>
 
-        <!-- Ocaml Interpreter -->
-        <div class="col-md-4 col-sm-6 gallery-grid filter_soft">
+        <!-- QR Code Generator and URL Shortener -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_soft">
 					<div class="gallery-single fix">
-						<img src="uploads/interpreter.png" class="img-fluid project-images" alt="Image">
+						<img src="uploads/qrgen.png" class="img-fluid project-images" alt="QR Code Generator" style="background-color: #f4f4f4;" loading="lazy" decoding="async">
 						<div class="img-overlay">
-							<a href="https://github.com/plum-sorathorn/cs320-spring-2024-private" target="_blank" class="hoverbutton global-radius">
+							<a href="https://github.com/plum-sorathorn/qr-and-url-on-google-cloud" target="_blank" class="hoverbutton global-radius">
                   <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
               </a>
 						</div>
-            <h4 class="project-header">Ocaml Interpreter</h4>
-            <h5 class="project-subheader">Custom Functional Language</h5>
-            <p class="project-desc">An interpreter made with OCaml, developed to parse, evaluate, and execute expressions as a part of a programming languages course.</p>
+            <h4 class="project-header">QR Code & URL Shortener</h4>
+            <h5 class="project-subheader">Python | Flask | Google Cloud | Docker</h5>
+            <p class="project-desc">Public QR code generator and URL shortener on Google Cloud Platform (GCP), integrating Firestore and Cloud Storage with automated CI/CD via GitHub Actions.</p>
+					</div>
+				</div>
+
+        <!-- SIEM system on AWS EC2 with Wazuh -->
+				<div class="col-md-4 col-sm-6 gallery-grid filter_cloud filter_cyber">
+					<div class="gallery-single fix">
+						<img src="uploads/cloud_security.png" class="img-fluid project-images" alt="Wazuh SIEM" loading="lazy" decoding="async">
+						<div class="img-overlay">
+							<a href="https://github.com/plum-sorathorn/wazuh-siem-project" target="_blank" class="hoverbutton global-radius">
+                  <img src="uploads/github.png" alt="GitHub" class="img-fluid linked-logos">
+              </a>
+						</div>
+            <h4 class="project-header">SIEM with Wazuh on AWS EC2</h4>
+            <h5 class="project-subheader">Wazuh SIEM | AWS | Amazon Linux 2 | Nginx</h5>
+            <p class="project-desc">Deployed and configured Wazuh SIEM on AWS EC2 to establish centralized security monitoring and log aggregation, integrating Nginx logs and alerting on security events.</p>
 					</div>
 				</div>
 
@@ -239,77 +293,129 @@
       </div>
   
       <div class="row equal-height-boxes">
-        <div class="col-md-4 col-sm-6 col-lg-4">
+        <!-- Asia Inter Rice (Software & Automation Engineer) -->
+        <div class="col-md-6 col-sm-12 col-lg-6">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" style="transform: scale(0.8);">
+              <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" style="transform: scale(0.8);" loading="lazy" decoding="async">
             </div>
             <div class="post-info">
               <h3>Asia Inter Rice Co., Ltd.</h3>
-              <h3>Full Stack Enginner (Freelance)</h3>
-              <ul>
-                <li>August 15, 2025 to August 2025</li>
+              <h4>Software & Automation Engineer • Freelancer</h4>
+              <ul class="post-meta">
+                <li>05/2026 - 08/2026 &nbsp;|&nbsp; </li>
                 <li>Bangkok, Thailand</li>
               </ul>
-              <p>Developed a Python backend to automate data extraction from PDF, Excel, and XML files, significantly improving data processing efficiency; deployed the complete solution, including a frontend, as a standalone executable using PyInstaller.</p>
+              <ul class="experience-bullets">
+                <li>Shipped a React/FastAPI property-management system on GCP for 60+ residential units; used Google Cloud Vision to extract utility-meter readings and LINE webhooks to automate billing and reminders.</li>
+                <li>Built an Electron/Python data-conversion tool that standardized PDF, Excel, HTML, and XML purchase orders from 11 retailers into ERP-ready records; automated labor costing and cut weekly processing time by &gt;90%.</li>
+                <li>Developed a financial reconciliation application with four automated workflows, extracting multi-bank statement data and matching remittances to outstanding invoices using SQLite.</li>
+              </ul>
             </div>
           </div>
         </div>
-  
-        <div class="col-md-4 col-sm-6 col-lg-4">
+
+        <!-- Datapro Computer Systems -->
+        <div class="col-md-6 col-sm-12 col-lg-6">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="uploads/dcs-logo.png" class="img-fluid" alt="DCS Logo">
+              <img src="uploads/dcs-logo.png" class="img-fluid" alt="DCS Logo" loading="lazy" decoding="async">
             </div>
             <div class="post-info">
               <h3>Datapro Computer Systems</h3>
-              <h3>Software Developer Intern</h3>
-              <ul>
-                <li>May 19, 2025 to August 10, 2025</li>
+              <h4>Software Developer Intern • Internship</h4>
+              <ul class="post-meta">
+                <li>05/2025 - 08/2025 &nbsp;|&nbsp; </li>
                 <li>Bangkok, Thailand</li>
               </ul>
-              <p>Developed a full-stack passports manager mobile application to be used by travel agencies, from design to deployment. I also performed QA testing with Selenium on a web application to prepare it for user acceptance testing (UAT).</p>
+              <ul class="experience-bullets">
+                <li>Built a passport-processing mobile application with React Native (TypeScript), Spring Boot, and PostgreSQL; automated document extraction/validation and deployed the containerized backend on client servers.</li>
+                <li>Implemented Docker/GitLab CI/CD, reducing deployment cycles by 40%; used Selenium regression testing and resolved 30+ bugs and edge cases before user acceptance testing.</li>
+              </ul>
             </div>
           </div>
         </div>
-  
-        <div class="col-md-4 col-sm-6 col-lg-4">
+
+        <!-- Bangkok Bank -->
+        <div class="col-md-6 col-sm-12 col-lg-6">
           <div class="post-box">
             <div class="post-thumb">
-              <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" style="transform: scale(0.8);">
+              <img src="uploads/bangkok-bank-logo.png" class="img-fluid" alt="Bangkok Bank Logo" style="transform: scale(0.9);" loading="lazy" decoding="async">
+            </div>
+            <div class="post-info">
+              <h3>Bangkok Bank</h3>
+              <h4>Intern • Internship</h4>
+              <ul class="post-meta">
+                <li>07/2024 - 08/2024 &nbsp;|&nbsp; </li>
+                <li>Bangkok, Thailand</li>
+              </ul>
+              <ul class="experience-bullets">
+                <li>Led product R&D for a Wolffia globosa-based soup in a startup simulation, developing a recipe delivering approximately 20 g of protein per serving for elderly nutrition.</li>
+                <li>Presented the final product and business proposal to a panel of judges, earning 2nd place among 8 competing teams.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asia Inter Rice (IT Support) -->
+        <div class="col-md-6 col-sm-12 col-lg-6">
+          <div class="post-box">
+            <div class="post-thumb">
+              <img src="uploads/asia-logo.png" class="img-fluid" alt="Asia Inter Rice Logo" style="transform: scale(0.8);" loading="lazy" decoding="async">
             </div>
             <div class="post-info">
               <h3>Asia Inter Rice Co., Ltd.</h3>
-              <h3>IT Support Technician Intern</h3>
-              <ul>
-                <li>May 13, 2024 to July 12, 2024</li>
+              <h4>IT Support Technician Intern • Internship</h4>
+              <ul class="post-meta">
+                <li>05/2024 - 07/2024 &nbsp;|&nbsp; </li>
                 <li>Bangkok, Thailand</li>
               </ul>
-              <p>Reduced technical downtime by diagnosing and resolving network, hardware, and software issues for staff, demonstrating strong real-world troubleshooting skills.</p>
+              <ul class="experience-bullets">
+                <li>Diagnosed and resolved network, hardware, software, and security issues for internal staff, minimizing operational disruptions and restoring day-to-day IT functionality.</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-  
+    </div>
+  </div>
+
+  <div id="education" class="section lb">
+    <div class="container">
+      <div class="section-title text-left">
+        <h3>Education</h3>
+        <p>Academic degrees and technical foundations from Cornell Tech and Boston University</p>
+      </div>
+
       <div class="row equal-height-boxes">
-        <div class="col-md-4 col-sm-6 col-lg-4">
-          <div class="post-box">
-            <div class="post-thumb">
-              <img src="uploads/bangkok-bank-logo.png" class="img-fluid" alt="Bangkok Bank Logo" style="transform: scale(0.9);">
-            </div>
-            <div class="post-info">
-              <h3>SIP Bangkok Bank</h3>
-              <h3>Intern</h3>
-              <ul>
-                <li>July 16, 2024 to August 7, 2024</li>
-                <li>Bangkok, Thailand</li>
+        <div class="col-md-6 col-sm-12 col-lg-6">
+          <div class="post-box" style="padding: 30px; width: 100%;">
+            <div class="post-info" style="padding: 0;">
+              <h3>Cornell University (Cornell Tech)</h3>
+              <h4>Master's of Engineering in Computer Science</h4>
+              <ul class="post-meta">
+                <li>New York, NY &nbsp;|&nbsp; </li>
+                <li>08/2026 - Expected 05/2027</li>
               </ul>
-              <p>Led R&D for a Wolffia globosa-based soup startup, developing a high-protein (20 grams per serving) recipe and winning 2nd place in a start-up pitch competition amongst 8 teams</p>
+              <p style="color: #4a5568; line-height: 1.6; font-size: 13px;">Graduate engineering program at Cornell Tech (Roosevelt Island, NYC), specializing in advanced systems, multi-agent frameworks, distributed computing, and artificial intelligence.</p>
             </div>
           </div>
         </div>
-        
+
+        <div class="col-md-6 col-sm-12 col-lg-6">
+          <div class="post-box" style="padding: 30px; width: 100%;">
+            <div class="post-info" style="padding: 0;">
+              <h3>Boston University</h3>
+              <h4>Bachelor's Of Arts in Computer Science</h4>
+              <ul class="post-meta">
+                <li>Boston, MA &nbsp;|&nbsp; </li>
+                <li>09/2022 - 05/2026</li>
+              </ul>
+              <p style="color: #4a5568; line-height: 1.6; font-size: 13px;">Undergraduate study in Computer Science with coursework spanning Algorithms, Distributed Systems, Concepts of Programming Languages, Computer Systems, and Cybersecurity.</p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
   </div>
     
@@ -326,7 +432,7 @@
               <!-- A+ cert -->
               <div class="certificate-item">
                   <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                    <img src="uploads/CompTIA_A.png" alt="Certificate 1" class="img-fluid">
+                    <img src="uploads/CompTIA_A.png" alt="Certificate 1" class="img-fluid" loading="lazy" decoding="async">
                   </a>
                   <p class="cert-code">Code: <strong>Q5Y8XDBP7D44QTS7</strong></p>
               </div>
@@ -334,7 +440,7 @@
               <!-- Network+ cert -->
               <div class="certificate-item">
                   <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                    <img src="uploads/CompTIA_Network.png" alt="Certificate 1" class="img-fluid">
+                    <img src="uploads/CompTIA_Network.png" alt="Certificate 1" class="img-fluid" loading="lazy" decoding="async">
                   </a>
                   <p class="cert-code">Code: <strong>55S80NXZNBVE1HWT</strong></p>
               </div>
@@ -342,7 +448,7 @@
               <!-- Security+ cert -->
               <div class="certificate-item">
                   <a href="https://verify.comptia.org/" target="_blank" rel="noopener noreferrer">
-                    <img src="uploads/CompTIA_Security.png" alt="Certificate 1" class="img-fluid">
+                    <img src="uploads/CompTIA_Security.png" alt="Certificate 1" class="img-fluid" loading="lazy" decoding="async">
                   </a>
                   <p class="cert-code">Code: <strong>6Q5W0ZX6NM141B3G</strong></p>
               </div>

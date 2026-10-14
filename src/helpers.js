@@ -8,6 +8,7 @@ export const updatePointer = (clientX, clientY) => {
       store.pointer.x = (clientX / window.innerWidth) * 2 - 1;
       store.pointer.y = - (clientY / window.innerHeight) * 2 + 1;
       store.pointerNeedsUpdate = false;
+      store.raycastNeedsUpdate = true;
     });
   }
 };

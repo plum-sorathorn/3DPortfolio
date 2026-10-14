@@ -10,26 +10,69 @@ import * as THREE from 'three';
 
 /* RENDER FUNCTION TO CONTINUOSLY RENDER MODELS FOR CHANGES */
 
-
 const clock = new THREE.Clock();
+let currentCursor = 'default';
+let rafId = null;
+
+function setCursor(cursor) {
+  if (currentCursor !== cursor) {
+    document.body.style.cursor = cursor;
+    currentCursor = cursor;
+  }
+}
+
+function resetHovers() {
+  if (store.currentHoveredContacts) {
+    contactsHoverAnimation(store.currentHoveredContacts, false);
+    store.currentHoveredContacts = null;
+  }
+  if (store.currentHoveredFrames) {
+    framesHoverAnimation(store.currentHoveredFrames, false);
+    store.currentHoveredFrames = null;
+  }
+  if (store.currentHoveredHologram) {
+    hologramHoverAnimation(store.currentHoveredHologram, false);
+    store.currentHoveredHologram = null;
+  }
+  if (store.currentHoveredTesseract) {
+    tesseractHoverAnimation(store.currentHoveredTesseract, false);
+    store.currentHoveredTesseract = null;
+  }
+  if (store.currentHoveredChair && !store.currentHoveredChair.userData.isClicked) {
+    chairHoverAnimation(store.currentHoveredChair, false);
+    store.currentHoveredChair = null;
+  }
+}
 
 export function startRenderLoop() {
-    const render = () => {
-      if (!store.pauseRender) {
-        store.controls.update();
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
 
-        store.fans.forEach(fan => fan.rotation.y += 0.05);
+  const render = () => {
+    if (!store.pauseRender && !document.hidden) {
+      store.controls.update();
 
-        const elapsedTime = clock.getElapsedTime();
-        store.tesseracts.forEach(tess => {
-          tess.material.emissiveIntensity = store.innerOriginalIntensity * (Math.sin(elapsedTime * 3) * 0.8 + 2);
-        });
+      // Fans rotation
+      for (let i = 0; i < store.fans.length; i++) {
+        store.fans[i].rotation.y += 0.05;
+      }
 
-        store.raycaster.setFromCamera(store.pointer, store.camera);
-        store.currentIntersects = store.raycaster.intersectObjects(store.raycasterObjects);
+      // Tesseract pulse
+      const elapsedTime = clock.getElapsedTime();
+      const intensity = store.innerOriginalIntensity * (Math.sin(elapsedTime * 3) * 0.8 + 2);
+      for (let i = 0; i < store.tesseracts.length; i++) {
+        store.tesseracts[i].material.emissiveIntensity = intensity;
+      }
 
-        // only allow hovers if on PC
-        if (window.innerWidth > 768) {
+      // Only perform raycasting on PC and when pointer/camera moved (dirty flag)
+      if (window.innerWidth > 768) {
+        if (store.raycastNeedsUpdate) {
+          store.raycaster.setFromCamera(store.pointer, store.camera);
+          store.currentIntersects = store.raycaster.intersectObjects(store.raycasterObjects);
+          store.raycastNeedsUpdate = false;
+
           if (store.currentIntersects.length > 0) {
             const currentIntersectObject = store.currentIntersects[0].object;
 
@@ -79,40 +122,34 @@ export function startRenderLoop() {
                 }
               }
 
-              document.body.style.cursor = "pointer";
+              setCursor("pointer");
             } else {
-              document.body.style.cursor = "default";
+              resetHovers();
+              setCursor("default");
             }
           } else {
-            // Reset any lingering hover animations
-            if (store.currentHoveredContacts) {
-              contactsHoverAnimation(store.currentHoveredContacts, false);
-              store.currentHoveredContacts = null;
-            }
-            if (store.currentHoveredFrames) {
-              framesHoverAnimation(store.currentHoveredFrames, false);
-              store.currentHoveredFrames = null;
-            }
-            if (store.currentHoveredHologram) {
-              hologramHoverAnimation(store.currentHoveredHologram, false);
-              store.currentHoveredHologram = null;
-            }
-            if (store.currentHoveredTesseract) {
-              tesseractHoverAnimation(store.currentHoveredTesseract, false);
-              store.currentHoveredTesseract = null;
-            }
-            if (store.currentHoveredChair && !store.currentHoveredChair.userData.isClicked) {
-              chairHoverAnimation(store.currentHoveredChair, false);
-              store.currentHoveredChair = null;
-            }
-
-            document.body.style.cursor = "default";
+            resetHovers();
+            setCursor("default");
           }
         }
-
-        store.composer.render();
-        window.requestAnimationFrame(render);
       }
-    };
-      render();
+
+      store.composer.render();
+      rafId = window.requestAnimationFrame(render);
+    }
+  };
+
+  rafId = window.requestAnimationFrame(render);
 }
+
+// Pause/resume loop on tab visibility
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  } else if (!store.pauseRender) {
+    startRenderLoop();
+  }
+});
