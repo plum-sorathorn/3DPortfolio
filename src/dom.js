@@ -78,7 +78,7 @@ store.touchHappened = false;
 
 // Functions for interaction with modals
 store.showModal = modal => {
-  modal.style.display = "block";
+  modal.style.display = "flex";
   gsap.set(modal, { opacity: 0 });
   gsap.to(modal, { opacity: 1, duration: 0.5 });
 };
