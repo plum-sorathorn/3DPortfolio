@@ -1453,7 +1453,7 @@ hr.invis1 {
 
 .gallery-single{
 	margin: 30px 15px;
-    height: 570px; /* force height */
+    height: 660px; /* force height to fit all project details */
 }
 
 .gallery-single {
@@ -2522,6 +2522,7 @@ select.mobile-device {
   
     .gallery-single {
       margin: 15px 0;
+      height: auto;
     }
   
     .certificate-item {

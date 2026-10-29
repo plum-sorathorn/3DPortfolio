@@ -150,4 +150,15 @@ transform: scale(1.05);
     font-size: 13px !important;
     line-height: 1.55 !important;
     color: #4a5568 !important;
-}
+}
+
+/* Ensure project cards fit all description texts without clipping */
+.gallery-single {
+    height: 660px;
+}
+
+@media (max-width: 768px) {
+    .gallery-single {
+        height: auto;
+    }
+}
