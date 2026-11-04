@@ -124,9 +124,9 @@
                         <p> Hi, I'm Plum (Sorathorn)! I'm an incoming M.Eng. in Computer Science student at Cornell Tech and a Boston University CS graduate. I'm a software and systems engineer passionate about building resilient distributed infrastructure, multi-agent AI harnesses, and quantitative analytics engines. I thrive at the intersection of systems engineering and intelligent software, constantly exploring ways to make complex systems fast, reliable, and intuitive. </p>
                         <div class="skills-highlight" style="margin-top: 15px; margin-bottom: 25px;">
                             <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Languages:</strong> Python, C++, TypeScript, JavaScript, SQL, Java, Go, C, Bash</p>
-                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>AI & Machine Learning:</strong> LangGraph, DeepAgents, Multi-Agent Orchestration, LiteLLM, LightGBM, PyTorch, Scikit-learn, OpenAI API</p>
-                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Backend & Cloud Infrastructure:</strong> FastAPI, Flask, Spring Boot, React, React Native, Electron, Docker, GKE (Kubernetes), Apache Beam, GCP, AWS, Linux, REST APIs, WebSockets</p>
-                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Databases & Developer Tools:</strong> PostgreSQL, SQLite, Cloud SQL (MySQL), Git, GitLab CI/CD, GitHub Actions, Selenium, Pandas, openpyxl, pdfplumber</p>
+                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>AI & Machine Learning:</strong> LangGraph, Model Context Protocol (MCP), Multi-Agent Orchestration, LiteLLM, LightGBM, PyTorch, Scikit-learn, OpenAI API, Cloud Vision OCR</p>
+                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Backend & Cloud Infrastructure:</strong> FastAPI, Spring Boot, Flask, React, React Native, Docker, Kubernetes (GKE), Apache Beam, Dataflow, Pub/Sub, AWS (ECS, EC2), GCP, Linux, NGINX</p>
+                            <p style="margin-bottom: 5px; font-size: 13px; color: #4a5568;"><strong>Databases & Tooling:</strong> PostgreSQL, Cloud SQL (MySQL), SQLite, Git, GitLab CI/CD, GitHub Actions, Selenium, Pandas, Electron</p>
                             <p style="margin-bottom: 0; font-size: 13px; color: #4a5568;"><strong>Certifications:</strong> CompTIA Security+, CompTIA Network+, CompTIA A+</p>
                         </div>
                         <a href="cv/resume.pdf" target="_blank" class="sim-btn btn-hover-new" data-text="Download Resume"><span>Download Resume</span></a>
@@ -173,7 +173,7 @@
 						</div>
             <h4 class="project-header">Skail</h4>
             <h5 class="project-subheader">Python | LangGraph | DeepAgents | SQLite | Git</h5>
-            <p class="project-desc">Architected a production multi-agent coding harness based on LangGraph, orchestrating a lead agent and 3 concurrent specialists across dependency-aware DAG workflows, multi-provider APIs (OpenAI, Anthropic, Gemini), and Model Context Protocol (MCP) servers.</p>
+            <p class="project-desc">Architected a concurrent multi-agent runtime orchestrating 3 specialist LLM agents across dependency-aware DAG workflows and standardized Model Context Protocol (MCP) tool servers.</p>
 					</div>
 				</div>
 
@@ -188,7 +188,7 @@
 						</div>
             <h4 class="project-header">Project SCYLLA</h4>
             <h5 class="project-subheader">C++ | Crow | Python | FastAPI | LightGBM</h5>
-            <p class="project-desc">Built an asynchronous dual-engine analytics platform pairing a multithreaded C++ Crow microservice and native LightGBM C-API inference engine with Python feature-engineering pipelines.</p>
+            <p class="project-desc">Built a hybrid market analytics engine pairing a multithreaded C++ Crow microservice with an asynchronous Python ingestion pipeline for real-time order-flow anomaly detection.</p>
 					</div>
 				</div>
 
@@ -203,7 +203,7 @@
 						</div>
             <h4 class="project-header">Cloud Infrastructure & Distributed Data Pipelines</h4>
             <h5 class="project-subheader">Docker | GKE (Kubernetes) | Apache Beam | Dataflow | GCP</h5>
-            <p class="project-desc">Containerized microservices on Google Kubernetes Engine (GKE) behind multi-zone Layer 4 Load Balancers, achieving high availability and &lt;3s failover recovery.</p>
+            <p class="project-desc">Engineered distributed Apache Beam streaming pipelines on Cloud Dataflow and Pub/Sub to process 10M+ telemetry records behind multi-zone GKE Layer 4 Load Balancers with &lt;3s failover recovery.</p>
 					</div>
 				</div>
 
@@ -217,8 +217,8 @@
               </a>
 						</div>
             <h4 class="project-header">HackTrackAI</h4>
-            <h5 class="project-subheader">FastAPI | React | Deck.gl | AWS ECS</h5>
-            <p class="project-desc">AI-powered cybersecurity visualization platform integrating public threat intelligence APIs with Mistral AI to visualize global cyberattack activity and generate real-time threat summaries.</p>
+            <h5 class="project-subheader">Python | FastAPI | React | GKE | Apache Beam | AWS ECS</h5>
+            <p class="project-desc">Integrated Mistral AI threat summarization with an interactive React and Deck.gl geospatial dashboard, containerizing microservices with automated CI/CD deployments to AWS ECS.</p>
 					</div>
 				</div>
 
@@ -309,10 +309,10 @@
                 <li>Bangkok, Thailand</li>
               </ul>
               <ul class="experience-bullets">
-                <li>Automated purchase-order ETL across 11 retailers using Electron, Flask, and Pandas, standardizing PDF, Excel, HTML, and XML feeds into ERP records to cut processing time by &gt;90%.</li>
-                <li>Shipped a containerized property platform (React, FastAPI, SQLite) on GCP Linux VMs using Docker Compose with blue-green deployments for 60+ units, reducing late payments by 80% via LINE webhooks.</li>
-                <li>Engineered a Google Cloud Vision OCR pipeline to extract utility-meter readings directly from tenant photos, automating billing calculations and saving 20 hours/week of manual entry.</li>
-                <li>Engineered a multi-bank reconciliation system (C++, Python, SQLite), automating statement parsing, balance extraction, transaction matching, and reconciliation reporting.</li>
+                <li>Architected an automated purchase-order ETL platform (Python, Flask, Pandas, Electron) across 11 retail partners, standardizing PDF, XML, and Excel feeds into ERP records to cut processing time by &gt;90%.</li>
+                <li>Engineered a high-throughput C++ and Python multi-bank reconciliation engine backed by SQL databases, automating statement parsing, fuzzy transaction matching, and daily ledger auditing across accounts.</li>
+                <li>Built an automated Google Cloud Vision OCR document pipeline to extract structured billing metrics from unstructured field images, eliminating 20+ hours/week of manual accounting entry.</li>
+                <li>Shipped containerized full-stack billing and operations microservices (React, FastAPI, Docker) on GCP Linux VMs with blue-green deployments and automated LINE webhook workflows, reducing overdue receivables by 80%.</li>
               </ul>
             </div>
           </div>
@@ -332,9 +332,9 @@
                 <li>Bangkok, Thailand</li>
               </ul>
               <ul class="experience-bullets">
-                <li>Developed a passport-processing mobile app (React Native, TypeScript, Spring Boot, PostgreSQL) featuring automated OCR scanning to autofill user forms, deployed via Docker on Linux servers.</li>
-                <li>Architected containerized CI/CD pipelines with Docker and GitLab, cutting deployment cycle times by 40% while enforcing strict staging-to-production environment parity.</li>
-                <li>Automated end-to-end integration and regression testing using Selenium and Jira, resolving 30+ critical bugs and performance bottlenecks prior to User Acceptance Testing</li>
+                <li>Developed a full-stack identity-processing platform (React Native, TypeScript, Spring Boot, PostgreSQL) with real-time OCR document extraction, deployed via Docker on Linux servers.</li>
+                <li>Architected automated Docker and GitLab CI/CD pipelines with strict staging-to-production parity, reducing deployment cycle times by 40% across engineering teams.</li>
+                <li>Built automated end-to-end regression test suites using Selenium and Jira, resolving 30+ critical concurrency and performance bottlenecks prior to production release.</li>
               </ul>
             </div>
           </div>
@@ -419,8 +419,8 @@
               </ul>
               <ul class="experience-bullets">
                 <li>GPA: 3.61/4.00</li>
+                <li>Coursework: Distributed Systems, Cloud Computing, Database Systems, Analysis of Algorithms, Cybersecurity.</li>
               </ul>
-              <p style="color: #4a5568; line-height: 1.6; font-size: 13px;">Undergraduate study in Computer Science with coursework spanning Algorithms, Distributed Systems, Concepts of Programming Languages, Computer Systems, and Cybersecurity.</p>
             </div>
           </div>
         </div>
